@@ -1,0 +1,163 @@
+.recipeheading{
+    font-size: 25px ;
+  font-weight: 600;
+  margin-top: 6%;
+  text-align: left;
+  margin-left: 8%;
+  color: #131212;
+  margin-bottom: 20px;
+}
+
+.recipecart {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .recipe-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    padding: 10px 0px;
+    
+  }
+  
+  .recipe-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .recipecardright{
+    text-align: left;
+  }
+  .recipe-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .recipe-description {
+    color: #555;
+    text-align: left;
+  }
+  
+  .recipe-btn {
+    background-color: #00884F;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .recipe-btn:hover {
+    background-color: #0a7046;
+  }
+
+
+
+
+
+
+
+
+
+
+  /*************MEDIA QUERIES***************/
+
+@media (max-width: 768px){
+    .recipeheading{
+        font-size: 20px !important;
+      font-weight: 600;
+      margin-top: 10%;
+      text-align: left;
+      margin-left: 3%;
+
+    }
+    .recipe-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        padding: 10px 0px;
+        
+      }
+      
+      .recipe-image {
+        width: 80px;
+        height: 80px;
+
+      }
+      .recipecardright{
+        text-align: left;
+      }
+      .recipe-title {
+        font-size: 18px;
+     
+      }
+      
+      .recipe-description {
+        font-size: 15px;
+      }
+      
+      .recipe-btn {
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+    
+    
+}
+
+
+
+@media (max-width: 425px){
+    .recipeheading{
+      margin-top: 20%;
+    }
+}
+
+
+@media (max-width: 320px){
+    .recipeheading{
+        font-size: 19px !important;
+      font-weight: 600;
+      margin-top: 25%;
+      text-align: left;
+      margin-left: 5%;
+
+    }
+    .recipe-card {
+        padding: 10px 5px;
+        
+      }
+      
+      .recipe-image {
+        width: 70px;
+        height: 70px;
+
+      }
+      .recipecardright{
+        text-align: left;
+      }
+      .recipe-title {
+        font-size: 14px;
+     
+      }
+      
+      .recipe-description {
+        font-size: 13px;
+      }
+      
+      .recipe-btn {
+        padding: 4px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+    
+    
+}
+  

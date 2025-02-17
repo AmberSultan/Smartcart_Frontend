@@ -1,0 +1,162 @@
+*{
+    font-family: 'Poppins', sans-serif;
+}
+.logo{
+    width: 80%;
+}
+.navbar-toggler-icon{
+  width: 1.2em;
+  filter: invert(1);
+}
+.navbtns {
+   
+    gap: 10px; /* Adjust the spacing between buttons */
+  }
+.navpad {
+    padding: 3px !important;
+    background-color: #f6fff4;
+}
+.navbtns{
+    gap: 10px;
+}
+.signupbtn{
+    background-color: #00884F;
+    color: white;
+    font-size: 15px;
+}
+.loginbtn{
+    font-size: 15px;
+}
+.navbar-toggler{
+    border: none;
+}
+
+
+.secondSection{
+    text-align: left;
+    margin-top: 5%;
+    margin-left: 3%;
+}
+.hero-section {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+  }
+  
+  .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    object-fit: cover;
+    z-index: -1; 
+  }
+  
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 0;
+  }
+  
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 1;
+ 
+  }
+.welcome{
+    font-weight: 600;
+}
+.greensmart{
+    color: #00884F;
+}
+.yellowcart{
+    color: #F2CB00;
+}
+.choose{
+    font-weight: 700;
+}
+.emojidiv{
+  margin-top: 7%;
+}
+.emojiiamge{
+    width: 50%;
+}
+.customerHeading{
+    font-size: 30px;
+    font-weight: 700;
+}
+.yellowbg{
+    background: #F2CB00;
+}
+
+
+/*media queries*/
+
+@media (max-width: 768px) {
+    .navbtns {
+        display: block; /* Ensures the buttons stack vertically */
+        margin-top: 10px; 
+        text-align: right; /* Aligns the buttons to the right */
+        gap: unset; /* Removes the gap property if it was meant for flex */
+    }
+    .navbar-collapse {
+        text-align: right; 
+    }
+}
+
+@media (max-width: 430px){
+
+    .logo{
+        width: 95%;
+    }
+   
+    .hero-content{
+        width: 100%;
+    }
+    .welcome{
+        font-size: 25px;
+    }
+    .choose{
+        font-size: 15px;
+    }
+   
+    .tagname{
+        font-size: 13px;
+    }
+
+    .customerHeading{
+        font-size: 19px;
+    }
+
+}
+
+@media (max-width: 320px){
+
+    .welcome{
+        font-size: 20px;
+    }
+    .choose{
+        font-size: 13px;
+        font-weight: 300;
+    }
+    .tagname{
+        font-size: 12px;
+    }
+    .customerHeading{
+        font-size: 16px;
+    }
+    .navbar-brand{
+        width: 70%;
+    }
+
+}

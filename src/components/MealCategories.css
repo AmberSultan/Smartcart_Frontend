@@ -1,0 +1,97 @@
+.meal-categories-container {
+   
+    text-align: left; 
+  }
+  .mealcategories{
+    display: grid;
+    justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+  }
+  
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .subheading {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  /* .categories-grid {
+    display: grid;
+    
+  } */
+  
+  .category-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    max-width: 500;
+  }
+  
+  .category-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+  }
+  
+  .category-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+   
+    
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+  }
+  .category-title{
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .category-card:hover .category-image {
+    transform: scale(1.1);
+  }
+  
+  .category-card:hover .category-overlay {
+    opacity: 1;
+  }
+
+  @media (max-width : 430px) {
+    .mealcategories{
+      display: grid;
+      padding: 0px 20px;
+    gap: 10px;
+ 
+    }
+    
+  }
+
+  @media (max-width : 320px) {
+    .mealcategories {
+      display: block;
+      padding: 0 20px; 
+    }
+    
+    .category-card {
+      margin-bottom: 20px;
+    }
+    
+    
+  }
+  

@@ -1,0 +1,18 @@
+.signupform{
+    margin-left: 3%;
+}
+.rightsignup{
+    margin-top: 3%;
+}
+.password-input-container {
+    position: relative;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #555;
+  }
+  

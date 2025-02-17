@@ -1,0 +1,378 @@
+/* Global reset to prevent unwanted margin or padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.navicons {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navicons:hover {
+  color: #14a568;
+  text-decoration: none;
+}
+/* Position the navbar above the image */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1; /* Ensure navbar is above the image */
+}
+
+/* Additional styling for navbar */
+.navpad {
+  padding: 20px;
+  background-color: rgba(
+    37,
+    37,
+    37,
+    0.5
+  ); /* Optional: add a translucent background */
+}
+
+/* Ensure the parent container takes the full viewport */
+.herosection1 {
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Hide overflow to prevent scrolling */
+  margin: 0; /* Ensure no default margin is causing overflow */
+  padding: 0; /* Ensure no default padding */
+  position: relative; /* Ensure the container is relative for positioning */
+}
+
+/* Ensure the image stretches and maintains its aspect ratio */
+.herosectionimg {
+  width: 100%;
+  height: 90%;
+  object-fit: cover; /* Ensure image covers the container without stretching */
+  display: block; /* Remove any space below the image */
+  position: absolute; /* Make sure image stays in place */
+  top: 0;
+  left: 0;
+  z-index: -1; /* Place the image behind the overlay */
+}
+
+/* Overlay with opacity */
+.herosection1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 0;
+}
+
+/* Text content styling */
+.herosection-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the content */
+  color: white;
+  text-align: center;
+  z-index: 1; /* Ensure the text is above the overlay */
+}
+
+/* Heading and paragraph */
+.herosection-content .heroheadinghome {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.herotexthome {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  font-weight: 200;
+}
+
+/* Search bar container */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+  margin-right: 10px;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  background-color: #14a568;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.herosearch:focus{
+  border-color: #00884F;
+  outline: none;
+}
+
+/*categories*/
+
+.allcategoryheading {
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 60px;
+}
+.categoriesection {
+  margin: 0px 50px;
+}
+
+.fandv {
+  background: linear-gradient(to bottom, #ffdf39, #dfbb00);
+  border-radius: 10px;
+}
+.fandvimg {
+  width: 120px;
+}
+.fandvtext {
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  font-size: 18px;
+}
+.milk {
+  background: linear-gradient(to bottom, #e24d4d, #da2424);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.bread {
+  background: linear-gradient(to bottom, #725907, #423a02);
+  border-radius: 10px;
+}
+.breadimg {
+  width: 80%;
+}
+.oil {
+  background: linear-gradient(to bottom, #ecbb70, #e29a2c);
+  border-radius: 10px;
+}
+.oilimg {
+  width: 106%;
+}
+.oiltext {
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  font-size: 18px;
+  text-align: left;
+  margin-top: 20px;
+}
+.noodles {
+  background: linear-gradient(to bottom, #8bb46a, #49801d);
+  border-radius: 10px;
+}
+.snacks {
+  background: linear-gradient(to bottom, #a0719e, #522a50);
+  border-radius: 10px;
+}
+.snackimg {
+  width: 70%;
+}
+
+/*POPULAR RECIPES*/
+
+.popularrecipe-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.recipe-img {
+  width: 100%;
+  height: 200px; /* Ensures uniform height for images */
+  object-fit: cover; /* Makes sure images scale proportionally and don't distort */
+  position: relative; /* Ensures proper positioning of the button */
+}
+
+/* Plus button styling */
+.add-to-cart-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  position: absolute;
+  bottom: 90px; /* Adjust distance from the bottom */
+  right: 6px; /* Adjust distance from the right */
+  z-index: 10; /* Ensures it stays above the image */
+  background-color: #218838; /* Green background for the button */
+  color: #fff; /* White text color */
+  border: none;
+  cursor: pointer;
+}
+
+/* Button hover effect */
+.add-to-cart-btn:hover {
+  background-color: #218838;
+}
+
+/* Card body styling */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.badge {
+  margin-bottom: 0.5rem;
+}
+.view-recipe-btn {
+  background-color: #218838;
+  color: white;
+}
+.view-recipe-btn:hover {
+  background-color: #30ac4b;
+  color: white;
+}
+.popularrecipegrid {
+  width: 96%;
+}
+.view-all-recipe {
+  margin-right: 80px;
+  color: #218838;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+
+
+/* BLOG SECTION*/
+
+.textleftblog{
+  text-align: left;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+.blogheading{
+  text-align: left;
+}
+/*************MEDIA QUERIES***************/
+
+@media (max-width: 430px) {
+  .herosection-content .heroheadinghome{
+    font-size: 1.5rem;
+    width: 400px;
+  }
+  .allcategoryheading {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 20px;
+  }
+  .categorygrid {
+    margin: 0 20px;
+  }
+  .popularrecipegrid {
+    width: 100%;
+    margin-left: 10px;
+  }
+  .view-all-recipe {
+    margin-right: 30px;
+    color: #218838;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .popularecipletitle {
+    font-size: 12px;
+  }
+  .view-recipe-btn {
+    font-size: 12px;
+  }
+  .view-recipe-btn:hover {
+    font-size: 12px;
+  }
+  .add-to-cart-btn {
+    width: 30px;
+    height: 30px;
+    bottom: 70px;
+  }
+  .blogform{
+    margin-bottom: 20px;
+  }
+  .subscribeemail{
+    font-size: 14px;
+  }
+  .subscribe{
+    font-size: 12px;
+  }
+  .subscribe:focus{
+    outline: #14a568;
+  }
+  .herotexthome{
+    font-size: 14px;
+    width: 300px;
+    margin-left: 55px;
+    opacity: 100% !important;
+    
+
+  }
+  .quickblog{
+    font-size: 16px;
+  }
+  .readnow{
+    font-size: 12px;
+  }
+  .herosearch{
+    font-size: 12px;
+  }
+
+}
+@media (max-width: 320px) {
+  .view-recipe-btn {
+    font-size: 10px;
+  }
+
+  .recipe-img {
+    width: 100%;
+    height: 100px; 
+    object-fit: cover;
+    position: relative;
+  }
+  .herotexthome{
+    font-size: 12px;
+    width: 300px;
+    margin-left: 55px;
+    opacity: 100% !important;
+    
+
+  }
+  .quickblog{
+    font-size: 14px;
+  }
+  .readnow{
+    font-size: 11px;
+  }
+  .herosearch{
+    font-size: 12px;
+  }
+}

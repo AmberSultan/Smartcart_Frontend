@@ -1,0 +1,175 @@
+.ingredientpage{
+    margin-top: 5%;
+}
+.ingredientBox {
+    max-width: 1100px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  .ingredientsHeading{
+    font-size: 23px;
+    margin-top: 8%;
+    text-align: left;
+    font-weight: 700;
+
+  }
+
+  .ingredientsP{
+    text-align: left;
+  }
+  
+  .ingredient-list {
+    background: #fbfcfb;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .DishNameH{
+    text-align: left;
+    font-size: 23px;
+    font-weight: 600;
+  }
+  
+  .item-name {
+    flex: 3;
+    text-align: left;
+    margin-left: 40px;
+  }
+  
+  .quantity-control {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .quantity-control button {
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .quantity-control span {
+    padding: 0 10px;
+  }
+  
+  .item-price {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .add-to-cart {
+    background: #00884F;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+    text-align: center;
+    margin-right: 0px !important;
+  }
+  .add-to-cart:hover {
+    background: #01a360;
+  }
+  
+  .total-section {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  .custom-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #28a745; /* Green border */
+    border-radius: 50%; /* Circular shape */
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .custom-checkbox:checked {
+    background-color: #28a745; /* Green fill when checked */
+    border-color: #28a745; /* Solid green border */
+  }
+  
+  .custom-checkbox:checked::before {
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+
+
+
+  /********* MEDIA QUERIES *************/
+  
+  @media (max-width: 430px){
+    .ingredientsHeading{
+      font-size: 20px;
+      margin-top: 35%;
+    }
+  
+    .ingredientsP{
+      text-align: left;
+      font-size: 12px;
+    }
+    .add-to-cart {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    .DishNameH{
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .item-name{
+      font-size: 13px;
+      margin-left: 10px;
+    }
+    .item-price{
+      font-size: 13px;
+    }
+    .quantity-control{
+      font-size: 13px;
+    }
+    .total-section{
+      font-size: 13px;
+    }
+    .listcard{
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+  }
+
+  @media (max-width: 320px){
+    .ingredientsHeading{
+      font-size: 20px;
+      margin-top: 40%;
+    }
+    .item-name{
+      font-size: 11px;
+    }
+
+
+  }

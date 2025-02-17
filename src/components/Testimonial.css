@@ -1,0 +1,36 @@
+.reviewcontainer {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+  .stars {
+    font-size: 1.2rem;
+    color: #3ca033; /* Gold for stars */
+  }
+
+  .testimonial-feedback {
+    font-style: italic;
+    font-size: 1rem;
+    color: #333;
+    max-width: 300px;
+  }
+  .custom-review-bg {
+    background-color: #28c930; /* Your preferred color */
+  }
+  .text-muted{
+    text-align: left;
+    font-size: 11px;
+  }
+  .text-name {
+    text-align: left;
+    font-size: 13px;
+    margin-top: 0px !important;
+  }
+  .stars{
+    text-align: left;
+  }
+  .happytext{
+    margin-left: 8%;
+  }
+  
+  

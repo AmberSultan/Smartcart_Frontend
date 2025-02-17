@@ -1,0 +1,235 @@
+/*login left */
+
+.loginpage{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.loginbgimg {
+    position: relative;
+    width: 50%;
+    height: auto;
+  }
+  
+  .loginbg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .loginimgtext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+  }
+  
+  .loginimgheading {
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-align: left;
+  }
+ .logincomment{
+    margin-top: 60%;
+    width: 100%;
+ }
+
+ /*login right*/
+
+ .loginheading{
+    margin-top: 12%;
+    margin-left: 10%;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-align: left;
+
+ }
+ .logintext{
+    margin-left: 10%;
+    color: gray;
+    font-weight: 600;
+    text-align: left;
+ }
+ .form-group{
+    text-align: left;
+    margin-left: 10%;
+    margin-bottom: 20px;
+ }
+ .btnForget{
+    color: #00884F;
+ }
+ .btnForget:hover{
+    color: #00884F;
+ }
+
+ .loginBtn{
+  
+    background: #00884F;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: block; 
+    margin-left: 10%; 
+    text-align: left;
+ }
+ .signup-text{
+    margin-top: 20px;
+    color: gray;
+    margin-left: 10%;
+    text-align: left;
+ }
+.signuplink{
+    color: #00884F;
+    text-decoration: none !important;
+ }
+.password-icon{
+    position: absolute;
+    top: 70%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+  
+
+
+ /*media queries*/
+
+ @media (max-width: 768px) {
+    .loginimgheading {
+      font-size: 1.5rem;
+    }
+    .loginheading{
+        font-size: 1.5rem;
+     }
+     .logintext{
+        font-size: 0.75rem;
+     }
+     .formtitle{
+        font-size: 15px;
+     }
+     .btnForget{
+        font-size: 15px;
+     }
+     .remember{
+        font-size: 15px;
+     }
+     .loginBtn{
+        font-size: 15px;
+        padding: 7px 15px;
+     }
+     .signup-text{
+        font-size: 15px;
+     }
+}
+
+@media (max-width: 430px) {
+    .loginbgimg {
+        width: 100%;
+        height: auto; 
+        padding: 0px !important;
+    }
+
+    .loginimgtext {
+        font-size: 2rem;
+        top: 50%;
+    }
+
+    .loginimgheading {
+        font-size: 1.75rem;
+        text-align: left;
+    }
+
+    .logincomment {
+        margin-top: 40px;
+    }
+
+    .rightlogin {
+        margin-top: 20px;
+    }
+
+    .loginheading {
+        font-size: 1.8rem;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .logintext {
+        text-align: center;
+        margin: 0 auto 20px auto;
+        width: 90%;
+    }
+
+    .form-group {
+        margin-left: 10%;
+        width: 80%;
+    }
+
+    .btnForget {
+        text-align: center;
+        
+    }
+
+}
+
+@media (max-width: 320px) {
+
+
+    .loginimgtext {
+        font-size: 2rem;
+        top: 50%;
+    }
+
+    .loginimgheading {
+        font-size: 1.4rem;
+        text-align: left;
+    }
+
+    .logincomment {
+        margin-top: 40px;
+    }
+
+    .rightlogin {
+        margin-top: 20px;
+    }
+
+    .loginheading {
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .logintext {
+        text-align: center;
+        margin: 0 auto 20px auto;
+        width: 90%;
+    }
+
+    .form-group {
+        margin-left: 10%;
+        width: 80%;
+    }
+
+    .btnForget {
+       
+        font-size: 13px;
+        
+    }
+    .remember{
+        font-size: 13px;
+    }
+    .formtitle{
+        font-size: 13px;
+     }
+     .loginBtn{
+        font-size: 13px;
+     }
+     .signup-text{
+        font-size: 13px;
+     }
+     .emailformtext{
+        font-size: 12px;
+     }
+
+}
