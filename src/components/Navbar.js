@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 function Navbar() {
   return (
     <div>
-       <nav className="navbar navpad navbar-expand-lg shadow-sm">
-        <div className="container-fluid">
+       <nav className="navbar bg-light navpad navbar-expand-lg shadow-sm">
+        <div className="container-fluid navcolor">
           <Link className="navbar-brand" to="/">
             <img className="logo" src="/images/fulllogo.png" alt="logo here" />
           </Link>
@@ -34,13 +34,13 @@ function Navbar() {
               {/* Icons Section */}
               <div className="icons navicons d-flex align-items-center">
                 <Link to="/favorites" className="icon-link navicons me-3">
-                  <i className="far fa-heart"></i>
+                  <i className="far text-success fa-heart"></i>
                 </Link>
                 <Link to="/cart" className="icon-link navicons me-3">
-                  <i className="fa-solid fa-basket-shopping"></i>
+                  <i className="fa-solid text-success fa-basket-shopping"></i>
                 </Link>
                 <Link to="/profile" className="icon-link navicons me-5">
-                  <i className="far fa-user"></i>
+                  <i className="far text-success fa-user"></i>
                 </Link>
               </div>
             </div>

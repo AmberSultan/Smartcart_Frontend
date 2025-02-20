@@ -1,0 +1,16 @@
+.dishcol{
+    margin-right: 20px;
+}
+.dishname{
+    font-weight: 700;
+}
+.dishinput{
+    width: 41%;
+}
+.deletebtn{
+    background-color: rgba(255, 7, 7, 0.555);
+    color: white;
+}
+.editbtn{
+    background-color: rgba(0, 0, 0, 0.233);
+}

@@ -7,7 +7,7 @@ import Testimonials from '../Testimonials';
 function Page() {
   return (
     <div>
-      <nav className="navbar navpad navbar-expand-lg shadow-sm">
+      <nav className="navbar bg-light navpad navbar-expand-lg shadow-sm">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img className="logo" src="/images/fulllogo.png" alt="logo here" />

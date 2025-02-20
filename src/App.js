@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'; 
+import {BrowserRouter, Route, Routes } from 'react-router-dom'; 
 import './App.css';
 import Page from '../src/components/beforeSignup/Page';
 import Login from '../src/app/loginsignup/Login';
@@ -12,11 +12,25 @@ import Cart from './components/Cart';
 
 
 
+/* ADMIN DASHBOARD ROUTES */
+
+import DashboardLayout from './app/dashboard/DashboardLayout';
+import HomeAdmin from './app/dashboard/left-side/HomeAdmin';
+import MealCategoryAdmin from './app/dashboard/left-side/MealCategoryAdmin';
+import DishAdmin from './app/dashboard/left-side/DishAdmin';
+import IngredientsAdmin from './app/dashboard/left-side/IngredientsAdmin';
+import DishIngredients from './app/dashboard/left-side/DishIngredients';
+import CartItem from './app/dashboard/left-side/CartItem';
+
+
 function App() {
   return (
+    <>
     <BrowserRouter>  
       <div className="App">
       <Routes>
+
+         {/* USER SIDE ROUTES  */}
           <Route path="/" element={<Page />} />  
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -26,10 +40,25 @@ function App() {
           <Route path="/meal-choices/:category" element={<MealChoice />} />
           <Route path='/cart' element={<Cart/>} />
 
+
+
+        {/* DASHBOARD ROUTES */}
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path='' element={<HomeAdmin />} />
+          <Route path='meal-category' element={<MealCategoryAdmin />} />
+          <Route path='dish' element={<DishAdmin />} />
+          <Route path='ingredients' element={<IngredientsAdmin />} />
+          <Route path='dishingredients' element={<DishIngredients />} />
+          <Route path='cart-orders' element={< CartItem />} />
+
+        </Route>
+
+
         </Routes>
         
       </div>
     </BrowserRouter>
+    </>
   );
 }
 
