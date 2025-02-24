@@ -9,6 +9,8 @@ import PopularRecipes from './components/PopularRecipes';
 import Ingredients from './components/Ingredients';
 import MealChoice from "./components/MealChoice";
 import Cart from './components/Cart';
+import YourCart from './components/YourCart';
+import Checkout from './components/Checkout';
 
 
 
@@ -39,8 +41,8 @@ function App() {
           <Route path='/ingredients' element={<Ingredients/>} />
           <Route path="/meal-choices/:category" element={<MealChoice />} />
           <Route path='/cart' element={<Cart/>} />
-
-
+          <Route path='/your-cart' element={<YourCart/>} />
+          <Route path='/checkout' element={<Checkout/>} />
 
         {/* DASHBOARD ROUTES */}
         <Route path="/dashboard" element={<DashboardLayout />}>

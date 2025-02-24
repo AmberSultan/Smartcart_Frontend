@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 function IngredientsAdmin() {
   const [ingredients, setIngredients] = useState([
-    { name: 'Flour', price: '2.5', unit: 'kg' },
-    { name: 'Sugar', price: '1.8', unit: 'kg' },
+    { name: 'Flour', price: '2.5', unit: '1 kg' },
+    { name: 'Sugar', price: '1.8', unit: ' 1 kg' },
     { name: 'Olive Oil', price: '5.0', unit: '1 jar' },
   ]);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -67,8 +67,8 @@ function IngredientsAdmin() {
                       value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} />
                     <select className="form-select" id="unitType" required
                       value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })}>
-                      <option value="kg">kg</option>
-                      <option value="g">g</option>
+                      <option value="kg">1 kg</option>
+                      <option value="g">1 g</option>
                       <option value="1 packet">1 packet</option>
                       <option value="1 jar">1 jar</option>
                     </select>
@@ -93,7 +93,7 @@ function IngredientsAdmin() {
                 <th>#</th>
                 <th>Ingredient Name</th>
                 <th>Price</th>
-                <th>Unit</th>
+                <th>Per Unit</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -102,7 +102,7 @@ function IngredientsAdmin() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{ingredient.name}</td>
-                  <td>{ingredient.price}</td>
+                  <td>{ingredient.price} Rs</td>
                   <td>{ingredient.unit}</td>
                   <td>
                     <button className="btn editbtn btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ingredientModal" onClick={() => handleEdit(index)}>Edit</button>
