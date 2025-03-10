@@ -1,12 +1,50 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import './Login.css';
-import { Link } from 'react-router-dom';
 
 function Login() {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    if (!email || !password) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${BASE_URL}/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const data = await response.json();
+  
+      if (response.ok) {
+        // Store token, id, and email in local storage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('id', data.id);
+        localStorage.setItem('email', data.email);
+  
+        toast.success('Login successful');
+        navigate('/home');
+      } else {
+        toast.error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      toast.error('Something went wrong, please try again');
+    }
+    console.log("API Request URL:", `${BASE_URL}/users/login`);
   };
 
   return (
@@ -26,54 +64,42 @@ function Login() {
             Login to <span className="greensmart">SMART</span>
             <span className="yellowcart">CART</span>
           </p>
-
           <p className="logintext">
             Effortless meal planning and grocery shopping by directly adding recipe ingredients into the cart.
           </p>
-
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label className="formtitle" htmlFor="fullname">
-                Full Name
-              </label>
-              <input type="email" className="form-control" id="fullname" />
-            </div>
-            <div className="form-group">
-              <label className="formtitle" htmlFor="exampleInputEmail1">
-                Email address
-              </label>
-              <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-              <small id="emailHelp" className="form-text text-muted emailformtext">
+              <label className="formtitle" htmlFor="exampleInputEmail1">Email address</label>
+              <input 
+                type="email" 
+                className="form-control" 
+                id="exampleInputEmail1" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <small className="form-text text-muted emailformtext">
                 We'll never share your email with anyone else.
               </small>
             </div>
             <div className="form-group position-relative">
-              <label className="formtitle" htmlFor="exampleInputPassword1">
-                Password
-              </label>
+              <label className="formtitle" htmlFor="exampleInputPassword1">Password</label>
               <input
                 type={passwordVisible ? 'text' : 'password'}
                 className="form-control"
                 id="exampleInputPassword1"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              <span
-                className="password-icon"
-                onClick={togglePasswordVisibility}
-              >
+              <span className="password-icon" onClick={togglePasswordVisibility}>
                 {passwordVisible ? '👁️' : '👁️‍🗨️'}
               </span>
             </div>
-            
+            <button type="submit" className="loginBtn">LOG IN</button>
           </form>
-          <Link to='/home' className='text-decoration-none'>
-
-          <button className="loginBtn">LOG IN</button>
-          </Link>
           <p className="signup-text">
-            Don't have an account?{' '}
-            <Link to="/signup" className='text-decoration-none'>
-              <span className="signuplink">Create Free Account</span>
-            </Link>
+            Don't have an account? <Link to="/signup" className='text-decoration-none'><span className="signuplink">Create Free Account</span></Link>
           </p>
         </div>
       </div>

@@ -124,7 +124,7 @@ function HomePage() {
   <div className="col-12 col-md-6 col-lg-3 mb-4 snacks">
     <div className="d-flex align-items-center flex-wrap">
       <p className="oiltext mb-0 me-3 text-center">Variety of Beverages and Snacks</p>
-      <img className="snackimg img-fluid" alt="snacks" src="/images/snacks.png" />
+      <img className="snackimg img-fluid" alt="snacks" src="/images/snacks1.png" />
     </div>
   </div>
 </div>

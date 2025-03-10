@@ -1,19 +1,71 @@
 import React, { useState, useEffect } from 'react';
 
 function DishIngredients() {
+  const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:4001';
+
   const [dishes, setDishes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [selectedDish, setSelectedDish] = useState('');
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [savedDishes, setSavedDishes] = useState([]);
-  const [openDishIndex, setOpenDishIndex] = useState(null); // Track which dish is expanded
-  const [editMode, setEditMode] = useState(null); // Track which dish is in edit mode
+  const [openDishIndex, setOpenDishIndex] = useState(null);
+  const [editMode, setEditMode] = useState(null);
 
+  // Fetch dishes from API
   useEffect(() => {
-    // Fetch dishes from API or database
-    setDishes(["Pizza", "Burger", "Pasta"]);
-    setIngredients(["Tomato", "Cheese", "Lettuce", "Onion"]);
-  }, []);
+    const fetchDishes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/dishName/dishes`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch dishes');
+        }
+        const data = await response.json();
+        const dishNames = data.map(item => item.dishName);
+        setDishes(dishNames);
+      } catch (error) {
+        console.error('Error fetching dishes:', error);
+      }
+    };
+
+    fetchDishes();
+  }, [BASE_URL]);
+
+  // Fetch ingredients from API
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/ingredientDetail/ingredient`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch ingredients');
+        }
+        const data = await response.json();
+        const ingredientNames = data.map(item => item.ingredientName);
+        setIngredients(ingredientNames);
+      } catch (error) {
+        console.error('Error fetching ingredients:', error);
+      }
+    };
+
+    fetchIngredients();
+  }, [BASE_URL]);
+
+  // Fetch saved dishes from API
+  useEffect(() => {
+    const fetchSavedDishes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/recipe-ingredients/dish-ingredient`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch saved dishes');
+        }
+        const data = await response.json();
+        setSavedDishes(data);
+      } catch (error) {
+        console.error('Error fetching saved dishes:', error);
+      }
+    };
+
+    fetchSavedDishes();
+  }, [BASE_URL]);
 
   const handleIngredientChange = (index, field, value) => {
     const updatedIngredients = [...selectedIngredients];
@@ -22,7 +74,7 @@ function DishIngredients() {
   };
 
   const addIngredient = () => {
-    setSelectedIngredients([...selectedIngredients, { ingredient: '', quantity: '', unit: 'kg' }]);
+    setSelectedIngredients([...selectedIngredients, { ingredient: '', quantity: '', unit: 'kg', price: 0 }]);
   };
 
   const deleteIngredient = (index) => {
@@ -30,29 +82,50 @@ function DishIngredients() {
     setSelectedIngredients(updatedIngredients);
   };
 
-  const saveDish = () => {
+  const saveDish = async () => {
     if (selectedDish && selectedIngredients.length > 0) {
       const dishWithIngredients = {
         dish: selectedDish,
-        ingredients: selectedIngredients
+        ingredients: selectedIngredients,
       };
-      setSavedDishes([...savedDishes, dishWithIngredients]);
-      setSelectedDish('');
-      setSelectedIngredients([]);
+
+      try {
+        const response = await fetch(`${BASE_URL}/recipe-ingredients/dish-ingredient`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dishWithIngredients),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to save dish and ingredients');
+        }
+
+        const result = await response.json();
+        console.log('Dish and ingredients saved successfully:', result);
+
+        // Update local state
+        setSavedDishes([...savedDishes, dishWithIngredients]);
+        setSelectedDish('');
+        setSelectedIngredients([]);
+      } catch (error) {
+        console.error('Error saving dish and ingredients:', error);
+      }
     }
   };
 
   const toggleCollapse = (index) => {
-    setOpenDishIndex(openDishIndex === index ? null : index); // Toggle collapse
-    setEditMode(null); // Exit edit mode when collapsing
+    setOpenDishIndex(openDishIndex === index ? null : index);
+    setEditMode(null);
   };
 
   const enterEditMode = (index) => {
-    setEditMode(index); // Enter edit mode for the selected dish
+    setEditMode(index);
   };
 
   const saveEditedDish = (index) => {
-    setEditMode(null); // Exit edit mode after saving
+    setEditMode(null);
   };
 
   const deleteDish = (index) => {
@@ -99,13 +172,15 @@ function DishIngredients() {
               <option value='kg'>kg</option>
               <option value='g'>g</option>
               <option value='pcs'>pcs</option>
+              <option value='packet'>packet</option>
             </select>
+            <input type='number' className='form-control ml-2 me-3' value={item.price} onChange={(e) => handleIngredientChange(index, 'price', e.target.value)} placeholder='Price' />
             <button className='btn btn-danger ml-2' onClick={() => deleteIngredient(index)}>-</button>
           </div>
         ))}
         <button className='btn btn-success mt-2 d-flex justify-content-start' onClick={addIngredient}>+</button>
         {selectedIngredients.length > 0 && (
-          <button className='btn btn-primary mt-2 d-flex justify-content-start' onClick={saveDish}>Done</button>
+          <button className='btn btn-success mt-2 d-flex justify-content-start' onClick={saveDish}>Submit Complete Dish</button>
         )}
       </div>
       <div className='mt-4'>
@@ -123,7 +198,7 @@ function DishIngredients() {
                     <span className='text-dark'>{dish.dish}</span>
                     <span className='text-success'>{openDishIndex === index ? '▲' : '▼'}</span>
                   </button>
-                  <div className="d-flex justify-content-end mt-2">
+                  <div className="d-flex justify-content-end">
                     <button className='btn btn-warning btn-sm me-2' onClick={() => enterEditMode(index)}>Edit</button>
                     <button className='btn btn-danger btn-sm' onClick={() => deleteDish(index)}>Delete</button>
                   </div>
@@ -160,9 +235,16 @@ function DishIngredients() {
                                 <option value='g'>g</option>
                                 <option value='pcs'>pcs</option>
                               </select>
+                              <input
+                                type='number'
+                                className='form-control me-2'
+                                value={ingredient.price}
+                                onChange={(e) => handleEditIngredientChange(index, idx, 'price', e.target.value)}
+                                placeholder='Price'
+                              />
                             </div>
                           ) : (
-                            `${ingredient.ingredient} - ${ingredient.quantity} ${ingredient.unit}`
+                            `${ingredient.ingredient} - ${ingredient.quantity} ( Rs.${ingredient.price} )`
                           )}
                         </li>
                       ))}

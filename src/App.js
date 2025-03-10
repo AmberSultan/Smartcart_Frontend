@@ -11,6 +11,7 @@ import MealChoice from "./components/MealChoice";
 import Cart from './components/Cart';
 import YourCart from './components/YourCart';
 import Checkout from './components/Checkout';
+import Delivery from './components/Delivery';
 
 
 
@@ -43,6 +44,8 @@ function App() {
           <Route path='/cart' element={<Cart/>} />
           <Route path='/your-cart' element={<YourCart/>} />
           <Route path='/checkout' element={<Checkout/>} />
+          <Route path='/delivery' element={<Delivery/>} />
+
 
         {/* DASHBOARD ROUTES */}
         <Route path="/dashboard" element={<DashboardLayout />}>

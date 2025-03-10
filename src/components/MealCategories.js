@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Import Link if you're using React Router
 import "./MealCategories.css";
 
 const MealCategories = () => {
-  const categories = [
-    { id: 1, name: "BREAKFAST", image: "breakfast.png", path: "/meal-choices/breakfast" },
-    { id: 2, name: "LUNCH", image: "lunch.png", path: "/meal-choices/lunch" },
-    { id: 3, name: "DINNER", image: "dinner.png", path: "/meal-choices/dinner" },
-    { id: 4, name: "DESSERT", image: "dessert.png", path: "/meal-choices/dessert" },
-    { id: 5, name: "SNACKS", image: "snack.png", path: "/meal-choices/snacks" },
-  ];
+  const [categories, setCategories] = useState([]);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    // Fetch meal categories from the API
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/mealcategory/category`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCategories(data.categories); 
+      } catch (error) {
+        console.error("Error fetching meal categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="container meal-categories-container">
@@ -21,15 +34,19 @@ const MealCategories = () => {
       </p>
       <div className="mealcategories">
         {categories.map((category) => (
-          <Link key={category.id} to={category.path} className="category-link">
+          <Link
+            key={category._id}
+            to={`/meal-choices/${category.categoryName.toLowerCase()}`} // Dynamically generate the path
+            className="category-link"
+          >
             <div className="category-card">
               <img
-                src={require(`/public/images/${category.image}`)}
-                alt={category.name}
+                src={require(`/public/images/${category.categoryName.toLowerCase()}.png`)} // Dynamically load images based on categoryName
+                alt={category.categoryName}
                 className="category-image"
               />
               <div className="category-overlay">
-                <h3 className="category-title">{category.name}</h3>
+                <h3 className="category-title">{category.categoryName}</h3>
               </div>
             </div>
           </Link>

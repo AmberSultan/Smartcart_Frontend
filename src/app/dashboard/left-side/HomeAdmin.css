@@ -1,0 +1,75 @@
+/* HomeAdmin.css */
+.divinsights {
+    position: relative;
+    text-align: center;
+  }
+  
+  .overlay-text {
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    color: rgb(23, 80, 47);
+    font-size: 1.5rem;
+    font-weight: bold;
+
+  }
+  
+  .overlay-text h4 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .overlay-text p {
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  .borderchart1{
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 10px;
+  }
+
+  /* MEALS CATEGORIES */
+  .meal-categories-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.meal-categories-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #198754;
+    margin-bottom: 15px;
+}
+
+.meal-categories-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.meal-categories-list li {
+    padding: 10px 15px;
+    margin: 5px 0;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.meal-categories-list li:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.meal-categories-list li span {
+    font-size: 1rem;
+    color: #333;
+}
+
+
+/* NOTIFICATIONS*/

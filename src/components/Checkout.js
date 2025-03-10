@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { House, Banknote } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
@@ -115,7 +116,9 @@ function Checkout() {
 
 
         {/* Place Order Button */}
+        <Link to='/delivery'>
         <button className="btn btn-success w-100 py-2 mb-5">PLACE ORDER</button>
+        </Link>
       </div>
 
       {/* Right Section (Order Summary) */}

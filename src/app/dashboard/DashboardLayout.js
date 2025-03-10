@@ -28,7 +28,8 @@ const DashboardLayout = () => {
         <button className="hamburger-icon" onClick={toggleSidebar}>
           {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <h2>Dashboard</h2>
+        {/* <h2>Dashboard</h2> */}
+        
       </nav>
 
       <div className="dashboard-container">

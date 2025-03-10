@@ -1,61 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom"; // Add useNavigate
 import "./MealChoice.css";
 
 const MealChoice = () => {
-  const { category } = useParams();
-  const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedItems, setSelectedItems] = useState([]);
+  const { category } = useParams(); // Get the selected category from the URL
+  const [dishes, setDishes] = useState([]); // State to store all dishes
+  const [filteredDishes, setFilteredDishes] = useState([]); // State to store filtered dishes
+  const [searchTerm, setSearchTerm] = useState(""); // State for search functionality
+  const [selectedItems, setSelectedItems] = useState([]); // State to store selected dishes
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
-  const dummyData = {
-    breakfast: [
-      "Pancakes",
-      "Omelette",
-      "Smoothie",
-      "Fruit Salad",
-      "French Toast",
-    ],
-    lunch: [
-      "Chicken Sandwich",
-      "Caesar Salad",
-      "Grilled Chicken",
-      "Veggie Wrap",
-      "Pasta",
-    ],
-    dinner: [
-      "Chicken Karahi",
-      "Biryani",
-      "Seekh Kebabs",
-      "Mutton Karahi",
-      "Dum Ka Murgh",
-    ],
-    dessert: [
-      "Chocolate Cake",
-      "Ice Cream",
-      "Fruit Tart",
-      "Cheesecake",
-      "Brownies",
-    ],
-    snacks: [
-      "Spring Rolls",
-      "Samosas",
-      "French Fries",
-      "Nachos",
-      "Popcorn",
-    ],
-  };
+  const BASE_URL = process.env.REACT_APP_BASE_URL; // Base URL for API
 
   useEffect(() => {
-    setItems(dummyData[category.toLowerCase()] || []);
-  }, [category]);
+    // Fetch all dishes from the API
+    const fetchDishes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/dishName/dishes`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setDishes(data); // Set all dishes
+      } catch (error) {
+        console.error("Error fetching dishes:", error);
+      }
+    };
 
-  const filteredItems = items.filter((item) => {
-    const normalizedItem = item.toLowerCase().replace(/\s+/g, " ").trim();
-    const normalizedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, " ").trim();
+    fetchDishes();
+  }, []);
 
-    return normalizedItem.includes(normalizedSearchTerm);
-  });
+  useEffect(() => {
+    // Filter dishes based on the selected category
+    if (dishes.length > 0) {
+      const filtered = dishes.filter(
+        (dish) => dish.categoryId.categoryName.toLowerCase() === category.toLowerCase()
+      );
+      setFilteredDishes(filtered); // Set filtered dishes
+    }
+  }, [category, dishes]);
+
+  // Handle search functionality
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Filter dishes based on search term
+  const searchedDishes = filteredDishes.filter((dish) =>
+    dish.dishName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Handle item selection/deselection
   const toggleSelection = (item) => {
@@ -68,10 +61,19 @@ const MealChoice = () => {
     });
   };
 
+  // Handle proceed button click
+  const handleProceed = () => {
+    if (selectedItems.length === 0) {
+      alert("Please select at least one dish.");
+      return;
+    }
+    navigate("/ingredients", { state: { selectedDishes: selectedItems } }); // Pass selectedItems as state
+  };
+
   return (
     <div className="meal-choices-container">
       <div className="header">
-        <Link to='/home'>
+        <Link to="/home">
           <button className="back-button">←</button>
         </Link>
         <div className="row mt-5">
@@ -92,24 +94,24 @@ const MealChoice = () => {
                 placeholder="Search"
                 className="search-barChoice"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearch}
               />
-              <Link to='/ingredients'>
-              <button className="proceed-button">PROCEED</button>
-              </Link>
+              <button className="proceed-button" onClick={handleProceed}>
+                PROCEED
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid">
-        {filteredItems.map((item, index) => (
+        {searchedDishes.map((dish) => (
           <div
-            key={index}
-            className={`grid-item ${selectedItems.includes(item) ? "selected" : ""}`}
-            onClick={() => toggleSelection(item)}
+            key={dish._id}
+            className={`grid-item ${selectedItems.includes(dish.dishName) ? "selected" : ""}`}
+            onClick={() => toggleSelection(dish.dishName)}
           >
-            {item}
+            {dish.dishName}
           </div>
         ))}
       </div>
