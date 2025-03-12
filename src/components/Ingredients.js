@@ -39,16 +39,17 @@ function Ingredients() {
         console.log("Filtered Dishes:", filteredDishes);
 
         const mappedDishes = filteredDishes.map((dish) => ({
-          _id: dish.dishId, // Use the actual dishId from the database
-          name: dish.dish, // Use the actual dish name
+          _id: dish._id, // Ensure this is coming from the database
+          name: dish.dish, // The actual dish name
           ingredients: dish.ingredients.map((ingredient) => ({
-            _id: ingredient.ingredientId, // Use the actual ingredientId from the database
+            _id: ingredient._id, // Ensure this is the correct ingredient ID
             name: `${ingredient.ingredient}: ${ingredient.quantity} ${ingredient.unit}`,
             price: ingredient.price,
             quantity: 1,
             checked: true,
           })),
         }));
+        
         console.log("Mapped Dishes:", mappedDishes);
 
         setDishes(mappedDishes);
@@ -63,66 +64,58 @@ function Ingredients() {
   }, [selectedDishes]);
 
   const handleAddToCart = async () => {
-    if (!userId) {
-      alert("Please log in to add items to the cart.");
-      return;
-    }
-  
     try {
-      const selectedIngredients = dishes.flatMap((dish) =>
-        dish.ingredients
-          .filter((ingredient) => ingredient.checked)
-          .map((ingredient) => ({
-            ingredientId: ingredient._id, // Use the actual _id from the database
-            name: ingredient.name, // Include the ingredient name
-            quantity: ingredient.quantity,
-            price: ingredient.price,
-          }))
-      );
-  
-      const dishId = dishes[0]._id;
-      const dishName = dishes[0].name; // Include the dish name
-  
-      console.log("Data sent to backend:", {
-        userId,
-        dishId,
-        dishName, // Include dish name in the payload
-        selectedIngredients,
-        totalCost: selectedIngredients.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        ),
-      });
-  
-      const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          dishId,
-          dishName, // Include dish name in the payload
-          selectedIngredients,
-          totalCost: selectedIngredients.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-          ),
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to add items to cart");
+      const userId = localStorage.getItem("id"); // Get user ID from localStorage
+    
+      if (!userId) {
+        console.error("User ID is missing. Please log in.");
+        return;
       }
+    
+      const selectedCartItems = dishes.map((dish) => ({
+        userId,  // Ensure userId is included
+        dishId: dish._id, // Ensure correct dish ID
+        selectedIngredients: dish.ingredients
+          .filter((ing) => ing.checked) // Only send checked ingredients
+          .map((ing) => ({
+            ingredientId: ing._id, // Ensure correct ingredient ID
+            quantity: ing.quantity,
+            price: ing.price,
+          })),
+        totalCost: calculateTotal(dish.ingredients),
+      }));
+    
+      if (selectedCartItems.length === 0) {
+        console.error("No items selected for the cart.");
+        return;
+      }
+    
+      console.log("Data sent to backend:", selectedCartItems); // Debugging output
+    
+      for (const cartItem of selectedCartItems) {
+        const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartItem),
+        });
   
-      const data = await response.json();
-      console.log("Cart API Response:", data);
+        if (!response.ok) {
+          throw new Error("Failed to add items to cart");
+        }
   
-      navigate("/cart");
+        const data = await response.json();
+        console.log("Cart updated:", data);
+      }
     } catch (error) {
       console.error("Error adding items to cart:", error);
     }
   };
+  
+  
+  
+  
 
   if (selectedDishes.length === 0) {
     return (
