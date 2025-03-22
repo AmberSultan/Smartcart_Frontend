@@ -4,30 +4,58 @@ import { Trash } from "lucide-react";
 
 function YourCart() {
   const [cartItems, setCartItems] = useState([]);
-  const BASE_URL = process.env.REACT_APP_BASE_URL; // Base URL for API
-  const userId = "679222b7604daee88a60cb5b"; // Replace with actual user ID
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+  // Fetch userId from localStorage
   useEffect(() => {
+    const storedUserId = localStorage.getItem("id"); // Use the correct key "id"
+    console.log("Stored User ID from localStorage:", storedUserId); // Debugging
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      setError("User ID not found in localStorage.");
+    }
+  }, []);
+
+  // Fetch cart items when userId or BASE_URL changes
+  useEffect(() => {
+    if (!userId || !BASE_URL) return;
+
     const fetchCartItems = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`);
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        setCartItems(data);
+        console.log("API Response Data:", data); // Debugging
+        setCartItems(data.cart); // Extract the `cart` array from the response
       } catch (error) {
-        console.error("Error fetching cart items:", error);
+        console.error("Error fetching cart items:", error.message);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCartItems();
-  }, []);
+  }, [userId, BASE_URL]);
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.totalCost, 0);
+  // Calculate totals
+  const subtotal = cartItems.reduce((acc, item) => acc + (item.totalCost || 0), 0);
   const serviceFee = 10;
   const packagingFee = 25;
-  const totalDiscount = 0; // Adjust based on your logic
+  const totalAmount = subtotal + serviceFee + packagingFee;
+
+  // Debugging: Log cartItems and userId
+  useEffect(() => {
+    console.log("Cart Items:", cartItems);
+    console.log("User ID:", userId);
+  }, [cartItems, userId]);
 
   return (
     <>
@@ -39,6 +67,7 @@ function YourCart() {
         <h4 className="mt-5 text-start fw-bold">Your Cart</h4>
         <p className="text-start">Items in your cart will be displayed here</p>
       </div>
+
       <div className="container mt-4">
         <div className="border shadow-lg rounded p-3">
           <p className="text-end text-muted">
@@ -46,35 +75,37 @@ function YourCart() {
             Standard delivery time: 15-20 mins
           </p>
           <hr />
-          {cartItems.map((item) => (
-            <div key={item._id} className="row align-items-center border-bottom py-2">
-              <div className="col-md-2 d-flex justify-content-start">
-                <img
-                  src="https://via.placeholder.com/50" // Replace with actual image URL
-                  alt={item.dishId}
-                  className="rounded-circle"
-                  width="50"
-                  height="50"
-                />
+
+          {/* Display loading or error messages */}
+          {loading ? (
+            <p className="text-center">Loading cart items...</p>
+          ) : error ? (
+            <p className="text-center text-danger">{error}</p>
+          ) : cartItems.length > 0 ? (
+            cartItems.map((item) => (
+              <div key={item._id} className="row align-items-center border-bottom py-2">
+              
+                <div className="col-md-7 text-start">
+                  <h6 className="mb-0">{item.dishName || "Unknown Dish"}</h6>
+                  <small className="text-muted">
+                    {item.selectedIngredients?.length || 0} ingredients selected
+                  </small>
+                </div>
+                <div className="col-md-2 text-end">
+                  <p className="mb-0">
+                    <strong>Rs. {item.totalCost || 0}</strong>
+                  </p>
+                </div>
+                <div className="col-auto">
+                  <button className="btn btn-outline-danger">
+                    <Trash />
+                  </button>
+                </div>
               </div>
-              <div className="col-md-7 text-start">
-                <h6 className="mb-0">{item.dishId} (Ingredients)</h6>
-                <small className="text-muted">
-                  {item.selectedIngredients.length} items selected
-                </small>
-              </div>
-              <div className="col-md-2 text-end">
-                <p className="mb-0">
-                  <strong>Rs. {item.totalCost}</strong>
-                </p>
-              </div>
-              <div className="col-auto">
-                <button className="btn btn-outline-danger">
-                  <Trash />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-muted">Your cart is empty.</p>
+          )}
 
           {/* Order Summary */}
           <div className="mt-3">
@@ -96,8 +127,7 @@ function YourCart() {
       <div className="Footer bg-warning fixed-bottom">
         <div className="d-flex justify-content-between mt-2 p-3">
           <p className="fw-bold">
-            Total (incl. fees and tax): Rs.{" "}
-            {subtotal + serviceFee + packagingFee - totalDiscount}
+            Total (incl. fees and tax): Rs. {totalAmount}
           </p>
           <Link to="/checkout">
             <button className="btn bg-success text-white">Go To Checkout</button>

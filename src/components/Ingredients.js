@@ -3,7 +3,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Ingredients.css";
 import Navbar from "./Navbar";
 
+import {toast , Toaster}from 'react-hot-toast';
+
 function Ingredients() {
+  
   const location = useLocation();
   const navigate = useNavigate();
   const selectedDishes = location.state?.selectedDishes || [];
@@ -66,12 +69,13 @@ function Ingredients() {
   const handleAddToCart = async () => {
     try {
       const userId = localStorage.getItem("id"); // Get user ID from localStorage
-    
+   
       if (!userId) {
         console.error("User ID is missing. Please log in.");
+        toast.error("User ID is missing. Please log in.");
         return;
       }
-    
+   
       const selectedCartItems = dishes.map((dish) => ({
         userId,  // Ensure userId is included
         dishId: dish._id, // Ensure correct dish ID
@@ -84,14 +88,15 @@ function Ingredients() {
           })),
         totalCost: calculateTotal(dish.ingredients),
       }));
-    
+   
       if (selectedCartItems.length === 0) {
         console.error("No items selected for the cart.");
+        toast.error("No items selected for the cart.");
         return;
       }
-    
+   
       console.log("Data sent to backend:", selectedCartItems); // Debugging output
-    
+   
       for (const cartItem of selectedCartItems) {
         const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`, {
           method: "POST",
@@ -108,8 +113,13 @@ function Ingredients() {
         const data = await response.json();
         console.log("Cart updated:", data);
       }
+  
+      // Show success toast message
+      toast.success("Items successfully added to the cart!");
+      navigate('/cart')
     } catch (error) {
       console.error("Error adding items to cart:", error);
+      toast.error("Failed to add items to the cart. Please try again.");
     }
   };
   
@@ -190,6 +200,7 @@ function Ingredients() {
   return (
     <>
       <Navbar />
+      <Toaster/>
       <div className="container ingredientBox">
         <div className="row ingredientpage align-items-center">
           <div className="col-6">

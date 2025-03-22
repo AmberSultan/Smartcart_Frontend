@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import {toast, Toaster} from 'react-hot-toast';
 import './Login.css';
 
 function Login() {
@@ -27,7 +27,7 @@ function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
+  
       const data = await response.json();
   
       if (response.ok) {
@@ -39,16 +39,21 @@ function Login() {
         toast.success('Login successful');
         navigate('/home');
       } else {
-        toast.error(data.message || 'Login failed');
+        if (response.status === 401) {
+          toast.error('Invalid email or password');
+        } else {
+          toast.error(data.error || 'Login failed');
+        }
       }
     } catch (error) {
       toast.error('Something went wrong, please try again');
     }
-    console.log("API Request URL:", `${BASE_URL}/users/login`);
   };
-
+  
   return (
+    
     <div className="container loginpage">
+      <Toaster/>
       <div className="row">
         <div className="col-md-6 loginbgimg">
           <img className="loginbg" src="/images/loginbg.png" alt="loginbg" />
