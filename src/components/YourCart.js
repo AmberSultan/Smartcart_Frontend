@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Trash } from "lucide-react";
+import { toast, Toaster } from 'react-hot-toast';
 
 function YourCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -9,10 +10,9 @@ function YourCart() {
   const [error, setError] = useState(null);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  // Fetch userId from localStorage
   useEffect(() => {
-    const storedUserId = localStorage.getItem("id"); // Use the correct key "id"
-    console.log("Stored User ID from localStorage:", storedUserId); // Debugging
+    const storedUserId = localStorage.getItem("id");
+    console.log("Stored User ID from localStorage:", storedUserId);
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
@@ -20,7 +20,6 @@ function YourCart() {
     }
   }, []);
 
-  // Fetch cart items when userId or BASE_URL changes
   useEffect(() => {
     if (!userId || !BASE_URL) return;
 
@@ -32,8 +31,8 @@ function YourCart() {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("API Response Data:", data); // Debugging
-        setCartItems(data.cart); // Extract the `cart` array from the response
+        console.log("API Response Data:", data);
+        setCartItems(data.cart);
       } catch (error) {
         console.error("Error fetching cart items:", error.message);
         setError(error.message);
@@ -45,13 +44,41 @@ function YourCart() {
     fetchCartItems();
   }, [userId, BASE_URL]);
 
-  // Calculate totals
+  // Function to remove an item from the cart
+  const handleRemoveItem = async (cartId) => {
+    if (!userId || !cartId) {
+      toast.error("Missing user ID or cart ID.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}/${cartId}`, { 
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Remove Item Response:", data);
+
+      setCartItems((prevItems) => prevItems.filter((item) => item._id !== cartId));
+      toast.success("Item removed from cart successfully!");
+    } catch (error) {
+      console.error("Error removing item from cart:", error.message);
+      toast.error("Failed to remove item. Please try again.");
+    }
+  };
+
   const subtotal = cartItems.reduce((acc, item) => acc + (item.totalCost || 0), 0);
   const serviceFee = 10;
   const packagingFee = 25;
   const totalAmount = subtotal + serviceFee + packagingFee;
 
-  // Debugging: Log cartItems and userId
   useEffect(() => {
     console.log("Cart Items:", cartItems);
     console.log("User ID:", userId);
@@ -59,6 +86,7 @@ function YourCart() {
 
   return (
     <>
+      <Toaster />
       <Link to="/cart">
         <button className="back-button">←</button>
       </Link>
@@ -68,7 +96,7 @@ function YourCart() {
         <p className="text-start">Items in your cart will be displayed here</p>
       </div>
 
-      <div className="container mt-4">
+      <div className="container mt-4 mb-4">
         <div className="border shadow-lg rounded p-3">
           <p className="text-end text-muted">
             Your order from <strong>Bahria Town LHR store</strong> <br />
@@ -76,7 +104,6 @@ function YourCart() {
           </p>
           <hr />
 
-          {/* Display loading or error messages */}
           {loading ? (
             <p className="text-center">Loading cart items...</p>
           ) : error ? (
@@ -84,8 +111,7 @@ function YourCart() {
           ) : cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div key={item._id} className="row align-items-center border-bottom py-2">
-              
-                <div className="col-md-7 text-start">
+                <div className="col-md-9 text-start">
                   <h6 className="mb-0">{item.dishName || "Unknown Dish"}</h6>
                   <small className="text-muted">
                     {item.selectedIngredients?.length || 0} ingredients selected
@@ -97,7 +123,10 @@ function YourCart() {
                   </p>
                 </div>
                 <div className="col-auto">
-                  <button className="btn btn-outline-danger">
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() => handleRemoveItem(item._id)}
+                  >
                     <Trash />
                   </button>
                 </div>
@@ -107,7 +136,6 @@ function YourCart() {
             <p className="text-center text-muted">Your cart is empty.</p>
           )}
 
-          {/* Order Summary */}
           <div className="mt-3">
             <h5 className="fw-semibold">Order Summary</h5>
             <p>
@@ -124,7 +152,7 @@ function YourCart() {
         </div>
       </div>
 
-      <div className="Footer bg-warning fixed-bottom">
+      <div className="Footer bg-warning">
         <div className="d-flex justify-content-between mt-2 p-3">
           <p className="fw-bold">
             Total (incl. fees and tax): Rs. {totalAmount}

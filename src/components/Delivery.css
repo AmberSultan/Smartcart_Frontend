@@ -1,0 +1,111 @@
+.delivery-header {
+    position: relative;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Light gray background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Back button styling */
+  .delivery-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #000;
+    transition: color 0.3s ease;
+  }
+  
+  .delivery-back-btn:hover {
+    color: #198754; /* Green on hover */
+  }
+  
+  /* Wrapper for the main content */
+  .delivery-content-wrapper {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Title styling */
+  .delivery-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #198754;
+    margin-bottom: 30px;
+  }
+  
+  /* Container for the cart image with AOS animation */
+  .delivery-img-container {
+    margin-bottom: 40px;
+  }
+  
+  /* Cart image styling */
+  .delivery-cart-img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Section for order details */
+  .delivery-info-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for each detail text */
+  .delivery-info-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Styling for the detail labels (e.g., "Delivery Time:") */
+  .delivery-info-label {
+    font-weight: 600;
+    color: #000000;
+    font-size: 16px;
+  }
+  
+  /* Error message styling */
+  .delivery-error-text {
+    color: #dc3545; /* Red for error messages */
+    font-weight: 500;
+  }
+
+  .delivery-img-container {
+    width: 100%; /* Ensure the container allows horizontal movement */
+    overflow: hidden; /* Hide overflow if the image moves out of bounds */
+  }
+  
+
+
+  .delivery-back-btn {
+    padding: 10px 20px;
+    background-color: #198754;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delivery-back-btn:hover {
+    background-color: #198754;
+    color: white;
+  }
+  .delivery-cart-img{
+    width: 40%;
+  }
