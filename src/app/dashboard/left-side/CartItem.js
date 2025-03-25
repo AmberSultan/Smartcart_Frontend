@@ -55,7 +55,7 @@ function CartItem() {
 
   return (
     <div className="admin px-4">
-      <h2 className="adminhead mt-4 mb-4" >All Orders</h2>
+      <h2 className="adminhead mt-4 mb-4">All Orders</h2>
       {orders.length > 0 ? (
         <table className="orders-table">
           <thead>
@@ -64,6 +64,7 @@ function CartItem() {
               <th>Name</th>
               <th>Phone Number</th>
               <th>Store Location</th>
+              <th>Delivery Location</th> {/* New column */}
               <th>Total Price</th>
               <th>Order Status</th>
             </tr>
@@ -75,6 +76,7 @@ function CartItem() {
                 <td>{order.personalInfo?.name || 'N/A'}</td>
                 <td>{order.personalInfo?.phone || 'N/A'}</td>
                 <td>{order.storeLocation || 'N/A'}</td>
+                <td>{order.deliveryAddress?.addressDetails || 'N/A'}</td> {/* Display addressDetails */}
                 <td>Rs.{order.orderDetails?.totalPrice || 'N/A'}</td>
                 <td
                   className={

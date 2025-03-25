@@ -15,11 +15,11 @@ function Delivery() {
   const navigate = useNavigate();
 
   useEffect(() => {
-      AOS.init({
-        duration: 1500,
-        easing: 'ease-in-out',
-      });
-    }, []);
+    AOS.init({
+      duration: 1500,
+      easing: 'ease-in-out',
+    });
+  }, []);
 
   // Fetch userId from localStorage
   useEffect(() => {
@@ -91,16 +91,17 @@ function Delivery() {
               <p className="delivery-info-text">
                 <span className="delivery-info-label">Order Status:</span>{' '}
                 <span
-                  style={{
-                    color:
-                      orderDetails.orderStatus === 'Pending'
-                        ? 'red'
-                        : orderDetails.orderStatus === 'Completed'
-                        ? 'green'
-                        : 'inherit',
-                  }}
+                  className={
+                    orderDetails.orderStatus === 'Pending'
+                      ? 'status-pending'
+                      : orderDetails.orderStatus === 'Completed'
+                      ? 'status-completed'
+                      : 'status-default'
+                  }
                 >
-                  {orderDetails.orderStatus || 'N/A'}
+                  {orderDetails.orderStatus === 'Pending'
+                    ? 'Your rider is on the way'
+                    : orderDetails.orderStatus || 'N/A'}
                 </span>
               </p>
               <p className="delivery-info-text">

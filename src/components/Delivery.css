@@ -109,3 +109,15 @@
   .delivery-cart-img{
     width: 40%;
   }
+
+  .status-pending {
+    color: rgb(202, 134, 6) !important;
+  }
+  
+  .status-completed {
+    color: green;
+  }
+  
+  .status-default {
+    color: inherit;
+  }

@@ -1,8 +1,11 @@
 import React from "react";
 import "./Page.css";
 
+import "../Footer"
+
 import { Link } from "react-router-dom";
 import Testimonials from '../Testimonials';
+import Footer from "../Footer";
 
 function Page() {
   return (
@@ -102,6 +105,8 @@ function Page() {
       {/* Happy Customer Section */}
       <h2 className="customerHeading">What happy customers say about us</h2>
       <Testimonials/>
+
+      {/* <Footer/> */}
       
     </div>
   );

@@ -87,9 +87,9 @@ function YourCart() {
   return (
     <>
       <Toaster />
-      <Link to="/cart">
+      {/* <Link to="/cart">
         <button className="back-button">←</button>
-      </Link>
+      </Link> */}
 
       <div className="container">
         <h4 className="mt-5 text-start fw-bold">Your Cart</h4>

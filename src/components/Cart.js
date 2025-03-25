@@ -16,9 +16,9 @@ function Cart() {
   return (
     <>
         <div className="header">
-        <Link to='/ingredients'>
+        {/* <Link to='/ingredients'>
           <button className="back-button">←</button>
-        </Link>
+        </Link> */}
         <div className="container">
         <h4 className='itemadded'>Items Added to Cart Sucessfully</h4>
         <div data-aos="fade-up-left">

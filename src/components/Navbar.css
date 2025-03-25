@@ -1,0 +1,69 @@
+.dropdown-menu {
+    position: absolute;
+    top: 200%; /* Matches inline style */
+    right: 0;
+    min-width: 100px; /* Adjusted from inline minWidth: '100px' for better readability */
+    background-color: #eceaea;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .dropdown-item-text {
+    padding: 1rem; /* Matches p-3 */
+  }
+  
+  .dropdown-item-text p {
+    margin-bottom: 0.25rem; /* Matches mb-1 and mb-3 */
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .dropdown-item-text strong {
+    font-weight: bold;
+  }
+  
+  /* Logout button styling */
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    font-size: 14px;
+    padding: 5px 10px;
+    color: #fff; /* White text for contrast */
+    width: 100%;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+    border-color: #bd2130;
+  }
+  
+  /* Backdrop for dropdown */
+  .dropdown-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 991.98px) {
+    .navbtns {
+      margin-top: 1rem; /* Add spacing when collapsed */
+    }
+  
+    .navicons {
+      margin-right: 1rem !important; /* Override me-3 and me-5 for smaller screens */
+    }
+  
+    .dropdown-menu {
+      position: static; /* Adjust for mobile view */
+      width: 100%;
+      box-shadow: none; /* Remove shadow in collapsed view if desired */
+    }
+  }
