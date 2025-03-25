@@ -160,3 +160,34 @@
     }
 
 }
+
+/* Ensure the offcanvas is only triggered on mobile */
+@media (min-width: 992px) {
+    .offcanvas {
+      display: none !important; /* Hide offcanvas on desktop */
+    }
+  }
+  
+  /* Ensure the navbar-collapse is only visible on desktop */
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      display: none !important; /* Hide collapse on mobile */
+    }
+  }
+  
+  /* Style the offcanvas */
+  .offcanvas {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Style the buttons in the offcanvas */
+  .offcanvas-body .btn {
+    width: 100%;
+    text-align: left;
+  }
+  
+  /* Optional: Style the buttons for consistency */
+  .btn-outline-success {
+    font-size: 16px;
+    padding: 8px 16px;
+  }

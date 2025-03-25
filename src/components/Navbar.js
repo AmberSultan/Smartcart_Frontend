@@ -9,26 +9,19 @@ function Navbar() {
   const [user, setUser] = useState({ fullName: '', email: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cartIngredientsCount, setCartIngredientsCount] = useState();
 
-  // Base URL for the API
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:4001';
 
-  // Fetch user details when the component mounts
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const token = localStorage.getItem('token') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzY5YjkyMGI2Nzc2M2I0Nzk3NzcyMSJ9';
-
-        if (!token) {
-          throw new Error('No token found');
-        }
+        const token = localStorage.getItem('token') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzY5YjkyMGI2Nzc2M2I0Nzk3NzcyMSJ9.QE3g1sMus3NI3Xs8XiihLmtZ6iLFx4oM2rR0vXuUPLI';
+        if (!token) throw new Error('No token found');
 
         const decodedToken = jwtDecode(token);
         const userId = decodedToken.id;
-
-        if (!userId) {
-          throw new Error('User ID not found in token');
-        }
+        if (!userId) throw new Error('User ID not found in token');
 
         const response = await fetch(`${BASE_URL}/users/get-users`, {
           method: 'GET',
@@ -38,18 +31,11 @@ function Navbar() {
           },
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user details');
-        }
-
+        if (!response.ok) throw new Error(`User fetch failed: ${response.status}`);
         const data = await response.json();
         const userData = data.find((u) => u._id === userId);
-
         if (userData) {
-          setUser({
-            fullName: userData.fullName,
-            email: userData.email,
-          });
+          setUser({ fullName: userData.fullName, email: userData.email });
         } else {
           setError('User not found');
         }
@@ -61,15 +47,60 @@ function Navbar() {
       }
     };
 
+    const fetchCartItems = async () => {
+      try {
+        const token = localStorage.getItem('token') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzY5YjkyMGI2Nzc2M2I0Nzk3NzcyMSJ9.QE3g1sMus3NI3Xs8XiihLmtZ6iLFx4oM2rR0vXuUPLI';
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+
+        const url = `${BASE_URL}/cart/yourcart/${userId}`;
+        console.log('Fetching cart from:', url);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log('Cart response status:', response.status);
+        if (response.status === 204) {
+          console.warn('No content returned from cart endpoint');
+          setCartIngredientsCount(0);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Cart fetch failed: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Cart response data:', data);
+
+        const cartData = data.cart || [];
+        const totalIngredients = Array.isArray(cartData)
+          ? cartData.reduce((sum, item) => sum + (item.selectedIngredients?.length || 0), 0)
+          : 0;
+        console.log('Total ingredients:', totalIngredients);
+        setCartIngredientsCount(totalIngredients);
+      } catch (err) {
+        console.error('Error fetching cart items:', err);
+        setCartIngredientsCount(0);
+      }
+    };
+
     fetchUserDetails();
+    fetchCartItems();
   }, []);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const toggleOffcanvas = () => setIsOffcanvasOpen(!isOffcanvasOpen);
 
-  const toggleOffcanvas = () => {
-    setIsOffcanvasOpen(!isOffcanvasOpen);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsOffcanvasOpen(false);
+    setIsDropdownOpen(false);
+    setCartIngredientsCount(0);
   };
 
   return (
@@ -79,8 +110,6 @@ function Navbar() {
           <Link className="navbar-brand" to="/">
             <img className="logo" src="/images/fulllogo.png" alt="logo here" />
           </Link>
-
-          {/* Hamburger Button for Mobile */}
           <button
             className="navbar-toggler"
             type="button"
@@ -91,8 +120,6 @@ function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-
-          {/* Desktop Navbar Items */}
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto"></ul>
             <div className="ms-auto navbtns d-flex align-items-center">
@@ -101,23 +128,20 @@ function Navbar() {
                   SMARTCART SHOP
                 </button>
               </Link>
-
-              {/* Icons Section */}
               <div className="icons navicons d-flex align-items-center">
                 <Link to="/favorites" className="icon-link navicons me-3">
                   <i className="far text-success fa-heart"></i>
                 </Link>
-                <Link to="/cart" className="icon-link navicons me-3">
-                  <i className="fa-solid text-success fa-basket-shopping"></i>
-                </Link>
+                <Link to="/cart" className="icon-link navicons me-3 position-relative">
+  <i className="fa-solid text-success fa-basket-shopping"></i>
+  <span
+    className={`cart-badge ${cartIngredientsCount === 0 ? 'empty' : 'filled'}`}
+  >
+    {cartIngredientsCount}
+  </span>
+</Link>
                 <div className="icon-link navicons me-5 position-relative">
-                  <i
-                    className="far text-success fa-user"
-                    onClick={toggleDropdown}
-                    style={{ cursor: 'pointer' }}
-                  ></i>
-
-                  {/* Dropdown Menu for User Profile */}
+                  <i className="far text-success fa-user" onClick={toggleDropdown} style={{ cursor: 'pointer' }}></i>
                   {isDropdownOpen && (
                     <div className="dropdown-menu show">
                       <div className="dropdown-item-text p-3">
@@ -134,13 +158,7 @@ function Navbar() {
                             <p className="mb-3" style={{ fontSize: '14px', color: '#000' }}>
                               {user.email}
                             </p>
-                            <button
-                              className="btn btn-danger w-100"
-                              onClick={() => {
-                                console.log('Logout clicked');
-                                setIsDropdownOpen(false);
-                              }}
-                            >
+                            <button className="btn btn-danger w-100" onClick={handleLogout}>
                               Logout
                             </button>
                           </>
@@ -155,7 +173,6 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Offcanvas for Mobile */}
       <div
         className={`offcanvas offcanvas-start ${isOffcanvasOpen ? 'show' : ''}`}
         tabIndex="-1"
@@ -164,15 +181,7 @@ function Navbar() {
         style={{ visibility: isOffcanvasOpen ? 'visible' : 'hidden', width: '250px' }}
       >
         <div className="offcanvas-header">
-          {/* <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-            Menu
-          </h5> */}
-          <button
-            type="button"
-            className="btn-close"
-            onClick={toggleOffcanvas}
-            aria-label="Close"
-          ></button>
+          <button type="button" className="btn-close" onClick={toggleOffcanvas} aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
           <div className="d-flex flex-column align-items-start">
@@ -184,26 +193,58 @@ function Navbar() {
             <Link to="/favorites" className="mb-3 text-dark text-decoration-none" onClick={toggleOffcanvas}>
               <i className="far text-success fa-heart me-2"></i> Favorites
             </Link>
-            <Link to="/cart" className="mb-3 text-dark text-decoration-none" onClick={toggleOffcanvas}>
+            <Link
+              to="/cart"
+              className="mb-3 text-dark text-decoration-none d-flex align-items-center"
+              onClick={toggleOffcanvas}
+            >
               <i className="fa-solid text-success fa-basket-shopping me-2"></i> Cart
+              <span
+                className="badge bg-danger rounded-circle ms-2"
+                style={{
+              
+                  fontSize: '10px',
+                  width: '18px',
+                  height: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: cartIngredientsCount === 0 ? '#gray' : '#dc3545', // Gray for 0, red for >0
+                }}
+              >
+                {cartIngredientsCount}
+              </span>
             </Link>
-            <Link to="/profile" className="mb-3 text-dark text-decoration-none" onClick={toggleOffcanvas}>
-              <i className="far text-success fa-user me-2"></i> Profile
-            </Link>
+            <div className="mb-3 text-start w-100">
+              <div className="d-flex align-items-center text-dark text-decoration-none mb-2">
+                <i className="far text-success fa-user me-2"></i> Profile
+              </div>
+              {loading ? (
+                <p style={{ fontSize: '14px', color: '#000' }}>Loading...</p>
+              ) : error ? (
+                <p style={{ fontSize: '14px', color: '#000' }}>{error}</p>
+              ) : (
+                <>
+                  <p className="mb-0" style={{ fontSize: '16px', color: '#000', textAlign: 'left' }}>
+                    <strong>{user.fullName}</strong>
+                  </p>
+                  <hr className="mobilehr text-start" />
+                  <p className="mb-3" style={{ fontSize: '14px', color: '#000', textAlign: 'left' }}>
+                    {user.email}
+                  </p>
+                  <button className="btn btn-danger text-start" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Backdrop for Offcanvas */}
       {isOffcanvasOpen && (
-        <div
-          className="offcanvas-backdrop fade show"
-          onClick={toggleOffcanvas}
-          style={{ zIndex: 1040 }}
-        ></div>
+        <div className="offcanvas-backdrop fade show" onClick={toggleOffcanvas} style={{ zIndex: 1040 }}></div>
       )}
-
-      {/* Backdrop for Dropdown */}
       {isDropdownOpen && (
         <div
           className="dropdown-backdrop"

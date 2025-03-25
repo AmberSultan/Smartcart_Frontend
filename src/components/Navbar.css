@@ -1,47 +1,45 @@
 .dropdown-menu {
     position: absolute;
-    top: 200%; /* Matches inline style */
+    top: 200%;
     right: 0;
-    min-width: 100px; /* Adjusted from inline minWidth: '100px' for better readability */
+    min-width: 100px;
     background-color: #eceaea;
     color: #000;
     border: none;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-  }
-  
-  .dropdown-item-text {
-    padding: 1rem; /* Matches p-3 */
-  }
-  
-  .dropdown-item-text p {
-    margin-bottom: 0.25rem; /* Matches mb-1 and mb-3 */
+}
+
+.dropdown-item-text {
+    padding: 1rem;
+}
+
+.dropdown-item-text p {
+    margin-bottom: 0.25rem;
     font-size: 14px;
     color: #000;
-  }
-  
-  .dropdown-item-text strong {
+}
+
+.dropdown-item-text strong {
     font-weight: bold;
-  }
-  
-  /* Logout button styling */
-  .btn-danger {
+}
+
+.btn-danger {
     background-color: #dc3545;
     border-color: #dc3545;
     font-size: 14px;
     padding: 5px 10px;
-    color: #fff; /* White text for contrast */
+    color: #fff;
     width: 100%;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333; /* Darker red on hover */
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
     border-color: #bd2130;
-  }
-  
-  /* Backdrop for dropdown */
-  .dropdown-backdrop {
+}
+
+.dropdown-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -49,21 +47,54 @@
     height: 100%;
     z-index: 999;
     background-color: rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 991.98px) {
+}
+
+.mobilehr {
+    margin: 0.5rem;
+}
+
+.offcanvas-body .btn-danger {
+    width: 70%;
+    text-align: left;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -13px;
+    right: -8px;
+    font-size: 10px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.cart-badge.empty {
+    background-color: #808080;
+}
+
+.cart-badge.filled {
+    background-color: #dc3545;
+    font-weight: 700;
+}
+
+
+
+@media (max-width: 991.98px) {
     .navbtns {
-      margin-top: 1rem; /* Add spacing when collapsed */
+        margin-top: 1rem;
     }
-  
+
     .navicons {
-      margin-right: 1rem !important; /* Override me-3 and me-5 for smaller screens */
+        margin-right: 1rem !important;
     }
-  
+
     .dropdown-menu {
-      position: static; /* Adjust for mobile view */
-      width: 100%;
-      box-shadow: none; /* Remove shadow in collapsed view if desired */
+        position: static;
+        width: 100%;
+        box-shadow: none;
     }
-  }
+}

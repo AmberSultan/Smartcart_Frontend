@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import "./Page.css";
 
 import "../Footer"
@@ -8,50 +8,99 @@ import Testimonials from '../Testimonials';
 import Footer from "../Footer";
 
 function Page() {
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
+  const toggleOffcanvas = () => {
+    setIsOffcanvasOpen(!isOffcanvasOpen);
+  };
   return (
     <div>
+     <div>
       <nav className="navbar bg-light navpad navbar-expand-lg shadow-sm">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img className="logo" src="/images/fulllogo.png" alt="logo here" />
           </a>
+
+          {/* Hamburger Button for Mobile */}
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
+            onClick={toggleOffcanvas}
+            aria-controls="offcanvasNavbar"
+            aria-expanded={isOffcanvasOpen}
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
+          {/* Desktop Navbar Items */}
           <div className="collapse navbar-collapse" id="navbarNav">
-  <ul className="navbar-nav me-auto">
-  </ul>
-  <div className=" ms-auto navbtns">
-    <Link to="/login">
-      <button
-        className="btn loginbtn btn-outline-success me-2"
-        type="button"
-      >
-        Login
-      </button>
-    </Link>
-    <Link to="/signup">
-      <button
-        className="btn signupbtn btn-outline-success me-5"
-        type="button"
-      >
-        Signup
-      </button>
-    </Link>
-  </div>
-</div>
-
+            <ul className="navbar-nav me-auto"></ul>
+            <div className="ms-auto navbtns">
+              <Link to="/login">
+                <button
+                  className="btn loginbtn btn-outline-success me-2"
+                  type="button"
+                >
+                  Login
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button
+                  className="btn signupbtn btn-outline-success me-5"
+                  type="button"
+                >
+                  Signup
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
+
+      {/* Offcanvas for Mobile */}
+      <div
+        className={`offcanvas offcanvas-start ${isOffcanvasOpen ? 'show' : ''}`}
+        tabIndex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+        style={{ visibility: isOffcanvasOpen ? 'visible' : 'hidden', width: '250px' }}
+      >
+        <div className="offcanvas-header">
+     
+          <button
+            type="button"
+            className="btn-close"
+            onClick={toggleOffcanvas}
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="offcanvas-body">
+          <div className="d-flex flex-column align-items-start">
+            <Link to="/login" className="mb-3" onClick={toggleOffcanvas}>
+              <button className="btn loginbtn btn-outline-success w-100" type="button">
+                Login
+              </button>
+            </Link>
+            <Link to="/signup" className="mb-3" onClick={toggleOffcanvas}>
+              <button className="btn signupbtn btn-outline-success w-100" type="button">
+                Signup
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Backdrop for Offcanvas */}
+      {isOffcanvasOpen && (
+        <div
+          className="offcanvas-backdrop fade show"
+          onClick={toggleOffcanvas}
+          style={{ zIndex: 1040 }}
+        ></div>
+      )}
+    </div>
 
       {/* Hero Section */}
       <section className="hero-section">
