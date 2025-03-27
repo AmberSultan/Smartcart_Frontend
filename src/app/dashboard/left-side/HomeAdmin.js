@@ -1,14 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomeAdmin.css';
-
 import Charts from '../homecomponents/Charts';
 import Notification from '../homecomponents/Notification';
 
 function HomeAdmin() {
-  // Example data (replace with actual data from your backend or state)
-  const totalUsers = 1200;
-  const totalIngredients = 350;
-  const totalDishes = 500;
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalIngredients, setTotalIngredients] = useState(0);
+  const [totalDishes, setTotalDishes] = useState(0);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    // Fetch Total Users
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/users/get-users`);
+        const data = await response.json();
+        const userCount = Array.isArray(data) ? data.length : data.total || 0;
+        setTotalUsers(userCount);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setTotalUsers(1200);
+      }
+    };
+
+    // Fetch Total Ingredients
+    const fetchIngredients = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/ingredientDetail/ingredient`);
+        const data = await response.json();
+        const ingredientCount = Array.isArray(data) ? data.length : data.total || 0;
+        setTotalIngredients(ingredientCount);
+      } catch (error) {
+        console.error('Error fetching ingredients:', error);
+        setTotalIngredients(350);
+      }
+    };
+
+    // Fetch Total Dishes
+    const fetchDishes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/recipe-ingredients/dish-ingredient`);
+        const data = await response.json();
+        const dishCount = Array.isArray(data) ? data.length : data.total || 0;
+        setTotalDishes(dishCount);
+      } catch (error) {
+        console.error('Error fetching dishes:', error);
+        setTotalDishes(500);
+      }
+    };
+
+    // Call all fetch functions
+    fetchUsers();
+    fetchIngredients();
+    fetchDishes();
+  }, [BASE_URL]);
 
   return (
     <div>
@@ -48,13 +93,12 @@ function HomeAdmin() {
       </div>
 
       <div className="mt-3">
-      <Charts/>
+        <Charts/>
       </div>
 
       <div className="mt-3 mb-5">
-      <Notification/>
+        <Notification/>
       </div>
-      
     </div>
   );
 }

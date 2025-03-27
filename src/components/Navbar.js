@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function Navbar() {
+  const navigate = useNavigate();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const [user, setUser] = useState({ fullName: '', email: '' });
@@ -11,7 +15,7 @@ function Navbar() {
   const [error, setError] = useState(null);
   const [cartIngredientsCount, setCartIngredientsCount] = useState();
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:4001';
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -93,15 +97,18 @@ function Navbar() {
     fetchCartItems();
   }, []);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  // const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Prevent the click from bubbling up and closing the dropdown prematurely
+    setIsDropdownOpen((prev) => !prev);
+};
   const toggleOffcanvas = () => setIsOffcanvasOpen(!isOffcanvasOpen);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsOffcanvasOpen(false);
-    setIsDropdownOpen(false);
-    setCartIngredientsCount(0);
-  };
+  const handleLogout = (event) => {
+    event.stopPropagation();
+    console.log('Logout clicked, navigating to /');
+    navigate('/');
+};
 
   return (
     <div>
@@ -132,7 +139,7 @@ function Navbar() {
                 <Link to="/favorites" className="icon-link navicons me-3">
                   <i className="far text-success fa-heart"></i>
                 </Link>
-                <Link to="/cart" className="icon-link navicons me-3 position-relative">
+                <Link to="/your-cart" className="icon-link navicons me-3 position-relative">
   <i className="fa-solid text-success fa-basket-shopping"></i>
   <span
     className={`cart-badge ${cartIngredientsCount === 0 ? 'empty' : 'filled'}`}
@@ -158,17 +165,23 @@ function Navbar() {
                             <p className="mb-3" style={{ fontSize: '14px', color: '#000' }}>
                               {user.email}
                             </p>
-                            <button className="btn btn-danger w-100" onClick={handleLogout}>
+                            {/* <button className="btn logoutbtn btn-danger w-100" onClick={handleLogout}>
                               Logout
-                            </button>
+                            </button> */}
                           </>
                         )}
                       </div>
+
                     </div>
+                  
                   )}
                 </div>
+                <button className="btn logoutbtn w-100" onClick={handleLogout}>
+                      <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                  </button>
               </div>
             </div>
+           
           </div>
         </div>
       </nav>
@@ -194,7 +207,7 @@ function Navbar() {
               <i className="far text-success fa-heart me-2"></i> Favorites
             </Link>
             <Link
-              to="/cart"
+              to="/your-cart"
               className="mb-3 text-dark text-decoration-none d-flex align-items-center"
               onClick={toggleOffcanvas}
             >
@@ -237,11 +250,13 @@ function Navbar() {
                   </button>
                 </>
               )}
+               
             </div>
           </div>
         </div>
+        
       </div>
-
+  
       {isOffcanvasOpen && (
         <div className="offcanvas-backdrop fade show" onClick={toggleOffcanvas} style={{ zIndex: 1040 }}></div>
       )}

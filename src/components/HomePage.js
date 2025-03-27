@@ -51,19 +51,18 @@ function HomePage() {
 
         {/* Text and Search Bar */}
         <div className="herosection-content">
-          <h1 data-aos="fade-up" className='heroheadinghome'>
-            BUY GROCERIES WITH <span className="greensmart">SMART</span>
-            <span className="yellowcart">CART</span>
-          </h1>
-          <p data-aos="fade-right" className='herotexthome'>
-            Effortless meal planning and grocery shopping by directly adding recipe ingredients into cart
-          </p>
-
-          <div className="search-bar-container">
-            <input type="text" className="search-bar herosearch" placeholder="Enter Dish you wanna make..." />
-            <button className="search-btn herosearch">Search</button>
-          </div>
-        </div>
+  <h1 data-aos="fade-up" className="heroheadinghome">
+    BUY GROCERIES WITH <span className="greensmart">SMART</span>
+    <span className="yellowcart">CART</span>
+  </h1>
+  <p data-aos="fade-right" className="herotexthome">
+    Effortless meal planning and grocery shopping at your fingertips
+  </p>
+  <div className="cta-block mt-4">
+    <Link to="/recipes" className="btn btn-success me-3">Plan a Meal</Link>
+    <Link to="/about" className="btn btn-outline-light">Our Story</Link>
+  </div>
+</div>
       </div>
 
   

@@ -1,14 +1,17 @@
+.icon-link {
+    position: relative;
+}
 .dropdown-menu {
     position: absolute;
     top: 200%;
     right: 0;
     min-width: 100px;
-    background-color: #eceaea;
+    /* background-color: #eceaea; */
     color: #000;
     border: none;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .dropdown-item-text {
@@ -32,11 +35,19 @@
     padding: 5px 10px;
     color: #fff;
     width: 100%;
+    pointer-events: auto;
 }
 
 .btn-danger:hover {
-    background-color: #c82333;
+    background-color: #70020d;
     border-color: #bd2130;
+}
+
+.logoutbtn{
+    color: #bd2130;
+    &:hover{
+        color: #70020d;
+    }
 }
 
 .dropdown-backdrop {
@@ -80,7 +91,6 @@
     background-color: #dc3545;
     font-weight: 700;
 }
-
 
 
 @media (max-width: 991.98px) {

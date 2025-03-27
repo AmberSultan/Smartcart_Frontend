@@ -13,6 +13,8 @@ import YourCart from './components/YourCart';
 import Checkout from './components/Checkout';
 import Delivery from './components/Delivery';
 
+import About from './components/About';
+
 
 
 /* ADMIN DASHBOARD ROUTES */
@@ -45,6 +47,8 @@ function App() {
           <Route path='/your-cart' element={<YourCart/>} />
           <Route path='/checkout' element={<Checkout/>} />
           <Route path='/delivery' element={<Delivery/>} />
+
+          <Route path='/about' element={<About/>} />
 
 
         {/* DASHBOARD ROUTES */}
