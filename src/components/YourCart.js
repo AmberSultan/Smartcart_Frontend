@@ -97,12 +97,12 @@ function YourCart() {
       </div>
 
       <div className="container mt-4 mb-4">
-        <div className="border shadow-lg rounded p-3">
-          <p className="text-end text-muted">
+        <div className="border shadow-sm rounded p-3">
+          {/* <p className="text-end text-muted">
             Your order from <strong>Bahria Town LHR store</strong> <br />
             Standard delivery time: 15-20 mins
           </p>
-          <hr />
+          <hr /> */}
 
           {loading ? (
             <p className="text-center">Loading cart items...</p>
@@ -136,24 +136,28 @@ function YourCart() {
             <p className="text-center text-muted">Your cart is empty.</p>
           )}
 
-          <div className="mt-3">
-            <h5 className="fw-semibold">Order Summary</h5>
-            <p>
-              Subtotal: <span className="float-end">Rs. {subtotal}</span>
-            </p>
-            <p>
-              Service Fee: <span className="float-end">Rs. {serviceFee}</span>
-            </p>
-            <p>
-              Packaging Fee: <span className="float-end">Rs. {packagingFee}</span>
-            </p>
-            <hr />
-          </div>
+<div className="mt-3">
+  <h5 className="fw-semibold">Order Summary</h5>
+  <div className="d-flex justify-content-between">
+    <p>Subtotal:</p>
+    <span>Rs. {subtotal}</span>
+  </div>
+  <div className="d-flex justify-content-between">
+    <p>Service Fee:</p>
+    <span>Rs. {serviceFee}</span>
+  </div>
+  <div className="d-flex justify-content-between">
+    <p>Packaging Fee:</p>
+    <span>Rs. {packagingFee}</span>
+  </div>
+</div>
+
         </div>
       </div>
 
-      <div className="Footer bg-warning">
-        <div className="d-flex justify-content-between mt-2 p-3">
+      <div className="Footer mt-auto bg-warning ">
+        <hr className="bg-warning"/>
+        <div className="d-flex ms-5 me-5 justify-content-between mt-2 p-3">
           <p className="fw-bold">
             Total (incl. fees and tax): Rs. {totalAmount}
           </p>

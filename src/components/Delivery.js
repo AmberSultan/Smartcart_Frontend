@@ -108,13 +108,17 @@ function Delivery() {
                 <span className="delivery-info-label">Order ID:</span>{' '}
                 {orderDetails._id ? `ORD-${orderDetails._id.slice(-4)}` : 'N/A'}
               </p>
-              <p className="delivery-info-text">
+              {/* <p className="delivery-info-text">
                 <span className="delivery-info-label">Store Location:</span>{' '}
                 {orderDetails.storeLocation || 'N/A'}
-              </p>
+              </p> */}
               <p className="delivery-info-text">
                 <span className="delivery-info-label">Delivery Address:</span>{' '}
                 {orderDetails.deliveryAddress?.addressDetails || 'N/A'}
+              </p>
+              <p className="delivery-info-text fw-bold">
+                <span className="delivery-info-label">Total Amount:</span>{' '}
+                Rs. {orderDetails.orderDetails?.totalPrice || 'N/A'} 
               </p>
             </div>
           ) : (

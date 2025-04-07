@@ -7,14 +7,17 @@ import './Checkout.css';
 
 function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPersonal, setIsEditingPersonal] = useState(false); // Renamed for clarity
+  const [isEditingAddress, setIsEditingAddress] = useState(false); // New state for address editing
   const [name, setName] = useState('Enter Your Name');
   const [email, setEmail] = useState('email@example.com');
   const [phone, setPhone] = useState('+923000000000');
-  const [cartItems, setCartItems] = useState([]); // State for dynamic cart items
-  const [loading, setLoading] = useState(true); // Loading state
-  const [userId, setUserId] = useState(null); // User ID from localStorage
-  const [riderNote, setRiderNote] = useState(''); // State for rider note
+  const [addressType, setAddressType] = useState('Home'); // New state for address type
+  const [addressDetails, setAddressDetails] = useState('Bahria Town'); // New state for address details
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
+  const [riderNote, setRiderNote] = useState('');
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ function Checkout() {
       setUserId(storedUserId);
     } else {
       toast.error("User ID not found. Please log in.");
-      setLoading(false); // Stop loading if userId is not found
+      setLoading(false);
     }
   }, []);
 
@@ -82,6 +85,11 @@ function Checkout() {
       return;
     }
 
+    if (!addressDetails || addressDetails.trim() === '') {
+      toast.error("Please provide a valid delivery address.");
+      return;
+    }
+
     if (!cartItems.length) {
       toast.error("Your cart is empty. Add items to proceed.");
       return;
@@ -90,8 +98,8 @@ function Checkout() {
     const checkoutData = {
       userId,
       deliveryAddress: {
-        addressType: "Home",
-        addressDetails: "Bahria Town",
+        addressType,
+        addressDetails,
         riderNote: riderNote || '',
       },
       deliveryOption: {
@@ -141,7 +149,8 @@ function Checkout() {
     }
   };
 
-  const handleEdit = () => setIsEditing(!isEditing);
+  const handleEditPersonal = () => setIsEditingPersonal(!isEditingPersonal);
+  const handleEditAddress = () => setIsEditingAddress(!isEditingAddress);
 
   return (
     <div className="container mt-4">
@@ -153,11 +162,37 @@ function Checkout() {
           {/* Delivery Address */}
           <div className="border bg-light rounded p-3 mb-3 text-start">
             <h5 className="fw-semibold mb-3">
-              Delivery Address <span className="float-end fs-6 text-dark">Change</span>
+              Delivery Address
+              <span
+                className="float-end fs-6 text-dark"
+                onClick={handleEditAddress}
+                style={{ cursor: 'pointer' }}
+              >
+                {isEditingAddress ? 'Save' : 'Change'}
+              </span>
             </h5>
-            <p className="mb-3">
-              <House size={20} /> Home, Bahria Town
-            </p>
+            {isEditingAddress ? (
+              <>
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  value={addressType}
+                  onChange={(e) => setAddressType(e.target.value)}
+                  placeholder="Address Type (e.g., Home, Office)"
+                />
+                <input
+                  type="text"
+                  className="form-control"
+                  value={addressDetails}
+                  onChange={(e) => setAddressDetails(e.target.value)}
+                  placeholder="Enter your address"
+                />
+              </>
+            ) : (
+              <p className="mb-3">
+                <House size={20} /> {addressType}, {addressDetails}
+              </p>
+            )}
             <input
               type="text"
               className="form-control border rounded p-2 text-muted"
@@ -187,13 +222,13 @@ function Checkout() {
               Personal Information
               <span
                 className="float-end fs-6 text-dark"
-                onClick={handleEdit}
+                onClick={handleEditPersonal}
                 style={{ cursor: 'pointer' }}
               >
-                {isEditing ? 'Save' : 'Edit'}
+                {isEditingPersonal ? 'Save' : 'Edit'}
               </span>
             </h5>
-            {isEditing ? (
+            {isEditingPersonal ? (
               <>
                 <input
                   type="text"
@@ -251,7 +286,7 @@ function Checkout() {
           <button
             className="btn btn-success w-100 py-2 mb-5"
             onClick={handlePlaceOrder}
-            disabled={loading || !cartItems.length} // Disable button while loading or if cart is empty
+            disabled={loading || !cartItems.length}
           >
             {loading ? 'Loading...' : 'PLACE ORDER'}
           </button>

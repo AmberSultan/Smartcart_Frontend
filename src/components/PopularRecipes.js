@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import './PopularRecipes.css';
 import Navbar from './Navbar';
 
@@ -11,10 +12,14 @@ function PopularRecipes() {
 
   // Dishes we want to check with their corresponding images
   const dishesToCheck = {
-    'Chicken Karahi': 'https://images.unsplash.com/photo-1626501418910-8c839ac2dcdb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3',
-    'Lasagna': 'https://images.unsplash.com/photo-1632778145676-4e7a6a389ac9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3',
-    'Chicken Biryani': 'https://images.unsplash.com/photo-1604151949097-5414d0b2e82f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3',
-    'Beef Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3'
+    'Chicken Karahi':
+    'https://images.unsplash.com/photo-1694579740719-0e601c5d2437?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Lasagna:
+    'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'Chicken Biryani':
+    'https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'Beef Burger':
+    'https://images.unsplash.com/photo-1543392765-620e968d2162?q=80&w=1387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   };
 
   // Descriptions for each dish
@@ -77,7 +82,12 @@ function PopularRecipes() {
                       <h3 className="recipe-title">{recipe.title}</h3>
                       <p className="recipe-description">{recipe.description}</p>
                       {recipe.found && (
-                        <button className="recipe-btn">Quick Review +</button>
+                        <Link
+                          to="/ingredients"
+                          state={{ selectedDishes: [recipe.title] }} // Pass the dish name as an array
+                        >
+                          <button className="recipe-btn">Quick Review +</button>
+                        </Link>
                       )}
                     </div>
                   </div>

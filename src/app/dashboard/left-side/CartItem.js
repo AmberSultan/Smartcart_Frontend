@@ -32,7 +32,11 @@ function CartItem() {
         if (!data.checkouts || !data.checkouts.length) {
           setOrders([]); // Set empty array if no orders
         } else {
-          setOrders(data.checkouts); // Set all orders
+          // Sort orders by createdAt in descending order (newest first)
+          const sortedOrders = data.checkouts.sort((a, b) => 
+            new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          setOrders(sortedOrders); // Set sorted orders
         }
       } catch (err) {
         setError(err.message);
