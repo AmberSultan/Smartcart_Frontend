@@ -170,20 +170,20 @@ function Page() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title fw-bold">Unlock Your Shopping Experience</h5>
+                <h5 className="modal-title fw-bold unlock">Unlock Your Shopping Experience</h5>
                 <button 
                   type="button" 
-                  className="btn-close" 
+                  className="btn-close btnmodal" 
                   onClick={() => setShowModal(false)}
                 ></button>
               </div>
               <div className="modal-body">
-                <p>Login or Sign Up to create personalized meal plans and shop for ingredients with ease!</p>
+                <p className="modaltext">Login or Sign Up to create personalized meal plans and shop for ingredients with ease!</p>
               </div>
               <div className="modal-footer">
                 <button 
                   type="button" 
-                  className="btn btn-outline-success" 
+                  className="btn btn-outline-success btnmodal" 
                   onClick={() => {
                     setShowModal(false);
                     navigate('/login');
@@ -193,7 +193,7 @@ function Page() {
                 </button>
                 <button 
                   type="button" 
-                  className="btn btn-success" 
+                  className="btn btn-success btnmodal" 
                   onClick={() => {
                     setShowModal(false);
                     navigate('/signup');

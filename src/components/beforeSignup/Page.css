@@ -137,7 +137,21 @@
     .customerHeading{
         font-size: 19px;
     }
+    
 
+}
+
+@media (max-width: 375px){
+    .unlock{
+        font-size: 16px;
+    }
+    .modaltext{
+        font-size: 14px;
+        margin-bottom: 0px;
+    }
+    .btnmodal{
+        font-size: 12px !important;
+    }
 }
 
 @media (max-width: 320px){
