@@ -39,7 +39,7 @@ function Testimonials() {
             <img
               src={testimonial.image}
               alt={testimonial.name}
-              className="rounded-circle"
+              className="rounded-circle rounded-circle1"
               style={{
                 width: '100px',
                 height: '100px',

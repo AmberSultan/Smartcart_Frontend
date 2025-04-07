@@ -165,9 +165,9 @@ function HomePage() {
                 </Link>
                 <div className="card-body">
                   <h5 className="card-title popularecipletitle">{recipe.dish}</h5>
-                  <Link to={`/ingredients`}>
-                    <button className="btn view-recipe-btn">Quick Review</button>
-                  </Link>
+                  <Link to={`/ingredients`} state={{ selectedDishes: [recipe.dish] }}>
+  <button className="btn view-recipe-btn">Quick Review</button>
+</Link>
                 </div>
               </div>
             </div>

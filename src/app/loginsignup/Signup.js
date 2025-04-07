@@ -25,36 +25,6 @@ function Signup() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const toastId = toast.loading("Creating your account...");
-
-  //   try {
-  //     const response = await fetch("http://localhost:4001/users/signup", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     const data = await response.json();
-  //     toast.dismiss(toastId);
-
-  //     if (response.ok) {
-  //       toast.success("Signup successful! Redirecting to login...");
-  //       setTimeout(() => navigate("/login"), 2000);
-  //     } else {
-  //       toast.error(data.message || "Signup failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     toast.dismiss(toastId);
-  //     toast.error("Error connecting to the server. Please try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
 
   const handleSubmit = async (e) => {
@@ -83,7 +53,7 @@ function Signup() {
         toast.success("Signup successful! Redirecting to login...");
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        toast.error(data.message || "Signup failed. Please try again.");
+        toast.error(data.error || "Signup failed. Please try again.");
       }
     } catch (error) {
       console.error("Signup Error:", error);

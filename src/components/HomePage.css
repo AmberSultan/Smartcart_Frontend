@@ -280,6 +280,10 @@ body {
 /*************MEDIA QUERIES***************/
 
 @media (max-width: 430px) {
+  .logo {
+    width: 80%;
+}
+
   .herosection-content .heroheadinghome{
     font-size: 1.5rem;
     width: 400px;
@@ -359,7 +363,7 @@ body {
   padding: 0px 0px !important;
   gap: 10px;
 }
-.rounded-circle{
+.rounded-circle1{
   width: 50px !important;
   height: 50px !important;
   object-fit: cover;
