@@ -8,7 +8,7 @@
 
 html,
 body {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   overflow-x: hidden; /* Prevent horizontal overflow */
 }
@@ -84,7 +84,7 @@ body {
   transform: translate(-50%, -50%); /* Center the content */
   color: white;
   text-align: center;
-  z-index: 1; /* Ensure the text is above the overlay */
+
 }
 
 /* Heading and paragraph */
@@ -224,7 +224,7 @@ body {
   position: absolute;
   bottom: 90px; /* Adjust distance from the bottom */
   right: 6px; /* Adjust distance from the right */
-  z-index: 10; /* Ensures it stays above the image */
+
   background-color: #218838; /* Green background for the button */
   color: #fff; /* White text color */
   border: none;
@@ -301,6 +301,7 @@ body {
     color: #218838;
     text-decoration: none;
     font-weight: 500;
+    font-size: 16px;
   }
   .popularecipletitle {
     font-size: 12px;
@@ -345,6 +346,25 @@ body {
   .herosearch{
     font-size: 12px;
   }
+  .allcategoryheading{
+    font-size: 16px;
+  }
+  .add-to-cart-btn {
+    width: 10px;
+    height: 25px;
+    bottom: 75px;
+}
+.mealcategories {
+  display: grid;
+  padding: 0px 0px !important;
+  gap: 10px;
+}
+.rounded-circle{
+  width: 50px !important;
+  height: 50px !important;
+  object-fit: cover;
+}
+
 
 }
 @media (max-width: 320px) {
@@ -375,4 +395,5 @@ body {
   .herosearch{
     font-size: 12px;
   }
+ 
 }

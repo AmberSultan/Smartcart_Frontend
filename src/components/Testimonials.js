@@ -34,7 +34,7 @@ function Testimonials() {
   <div className="row justify-content-center">
     {testimonials.map((testimonial, index) => (
       <div key={index} className="col-12 col-md-4 d-flex  mb-4">
-        <div className="card cardbg bg-warning border-0 text-center p-4 rounded d-flex flex-row">
+        <div className="card cardbg bg-warning border-0 text-center p-3 rounded d-flex flex-row">
           <div className="iamgereview d-flex justify-content-center align-items-center me-3">
             <img
               src={testimonial.image}
