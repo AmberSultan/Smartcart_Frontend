@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import './Navbar.css';
-import { useNavigate } from 'react-router-dom';
-
+import { toast, Toaster } from 'react-hot-toast'; // Import toast and Toaster
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,7 +12,7 @@ function Navbar() {
   const [user, setUser] = useState({ fullName: '', email: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cartIngredientsCount, setCartIngredientsCount] = useState();
+  const [cartIngredientsCount, setCartIngredientsCount] = useState(0); // Initialize as 0
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -97,21 +96,36 @@ function Navbar() {
     fetchCartItems();
   }, []);
 
-  // const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleDropdown = (event) => {
-    event.stopPropagation(); // Prevent the click from bubbling up and closing the dropdown prematurely
+    event.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
-};
+  };
+
   const toggleOffcanvas = () => setIsOffcanvasOpen(!isOffcanvasOpen);
 
   const handleLogout = (event) => {
     event.stopPropagation();
     console.log('Logout clicked, navigating to /');
     navigate('/');
-};
+  };
+
+  // New function to handle cart click
+  const handleCartClick = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    if (cartIngredientsCount === 0) {
+      toast.error('Your cart is empty, shop now!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+    } else {
+      navigate('/your-cart');
+    }
+  };
 
   return (
     <div>
+      {/* Add Toaster component to render toasts */}
+      <Toaster />
       <nav className="navbar bg-light navpad navbar-expand-lg shadow-sm">
         <div className="container-fluid navcolor">
           <Link className="navbar-brand" to="/">
@@ -130,25 +144,29 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto"></ul>
             <div className="ms-auto navbtns d-flex align-items-center">
-              <Link to="/login">
-                <button className="btn signupbtn btn-outline-success me-2" type="button">
-                  SMARTCART SHOP
-                </button>
-              </Link>
               <div className="icons navicons d-flex align-items-center">
-                <Link to="/favorites" className="icon-link navicons me-3">
+                <Link to="/recipes" className="icon-link navicons me-3">
                   <i className="far text-success fa-heart"></i>
                 </Link>
-                <Link to="/your-cart" className="icon-link navicons me-3 position-relative">
-  <i className="fa-solid text-success fa-basket-shopping"></i>
-  <span
-    className={`cart-badge ${cartIngredientsCount === 0 ? 'empty' : 'filled'}`}
-  >
-    {cartIngredientsCount}
-  </span>
-</Link>
+                {/* Replace Link with div and onClick handler */}
+                <div
+                  className="icon-link navicons me-3 position-relative"
+                  onClick={handleCartClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <i className="fa-solid text-success fa-basket-shopping"></i>
+                  <span
+                    className={`cart-badge ${cartIngredientsCount === 0 ? 'empty' : 'filled'}`}
+                  >
+                    {cartIngredientsCount}
+                  </span>
+                </div>
                 <div className="icon-link navicons me-5 position-relative">
-                  <i className="far text-success fa-user" onClick={toggleDropdown} style={{ cursor: 'pointer' }}></i>
+                  <i
+                    className="far text-success fa-user"
+                    onClick={toggleDropdown}
+                    style={{ cursor: 'pointer' }}
+                  ></i>
                   {isDropdownOpen && (
                     <div className="dropdown-menu show">
                       <div className="dropdown-item-text p-3">
@@ -165,23 +183,20 @@ function Navbar() {
                             <p className="mb-3" style={{ fontSize: '14px', color: '#000' }}>
                               {user.email}
                             </p>
-                            {/* <button className="btn logoutbtn btn-danger w-100" onClick={handleLogout}>
-                              Logout
-                            </button> */}
                           </>
                         )}
                       </div>
-
                     </div>
-                  
                   )}
                 </div>
-                <button className="btn logoutbtn w-100" onClick={handleLogout}>
-                      <i class="fa fa-sign-out" aria-hidden="true"></i>
-                                  </button>
+                {/* <button className="btn logoutbtn w-100" onClick={handleLogout}>
+                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                </button> */}
+                <button className="btn btn-danger text-start" onClick={handleLogout}>
+                    Logout
+                  </button>
               </div>
             </div>
-           
           </div>
         </div>
       </nav>
@@ -194,40 +209,47 @@ function Navbar() {
         style={{ visibility: isOffcanvasOpen ? 'visible' : 'hidden', width: '250px' }}
       >
         <div className="offcanvas-header">
-          <button type="button" className="btn-close" onClick={toggleOffcanvas} aria-label="Close"></button>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={toggleOffcanvas}
+            aria-label="Close"
+          ></button>
         </div>
         <div className="offcanvas-body">
           <div className="d-flex flex-column align-items-start">
-            <Link to="/login" className="mb-3" onClick={toggleOffcanvas}>
-              <button className="btn signupbtn btn-outline-success w-100" type="button">
-                SMARTCART SHOP
-              </button>
-            </Link>
-            <Link to="/favorites" className="mb-3 text-dark text-decoration-none" onClick={toggleOffcanvas}>
+            <Link
+              to="/recipes"
+              className="mb-3 text-dark text-decoration-none"
+              onClick={toggleOffcanvas}
+            >
               <i className="far text-success fa-heart me-2"></i> Favorites
             </Link>
-            <Link
-              to="/your-cart"
+            {/* Replace Link with div and onClick handler for offcanvas cart */}
+            <div
               className="mb-3 text-dark text-decoration-none d-flex align-items-center"
-              onClick={toggleOffcanvas}
+              onClick={(e) => {
+                handleCartClick(e);
+                toggleOffcanvas();
+              }}
+              style={{ cursor: 'pointer' }}
             >
               <i className="fa-solid text-success fa-basket-shopping me-2"></i> Cart
               <span
                 className="badge bg-danger rounded-circle ms-2"
                 style={{
-              
                   fontSize: '10px',
                   width: '18px',
                   height: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: cartIngredientsCount === 0 ? '#gray' : '#dc3545', // Gray for 0, red for >0
+                  backgroundColor: cartIngredientsCount === 0 ? '#gray' : '#dc3545',
                 }}
               >
                 {cartIngredientsCount}
               </span>
-            </Link>
+            </div>
             <div className="mb-3 text-start w-100">
               <div className="d-flex align-items-center text-dark text-decoration-none mb-2">
                 <i className="far text-success fa-user me-2"></i> Profile
@@ -250,15 +272,17 @@ function Navbar() {
                   </button>
                 </>
               )}
-               
             </div>
           </div>
         </div>
-        
       </div>
-  
+
       {isOffcanvasOpen && (
-        <div className="offcanvas-backdrop fade show" onClick={toggleOffcanvas} style={{ zIndex: 1040 }}></div>
+        <div
+          className="offcanvas-backdrop fade show"
+          onClick={toggleOffcanvas}
+          style={{ zIndex: 1040 }}
+        ></div>
       )}
       {isDropdownOpen && (
         <div

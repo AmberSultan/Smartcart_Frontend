@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Trash } from "lucide-react";
 import { toast, Toaster } from 'react-hot-toast';
 
+import './Footer.css';
+
 function YourCart() {
   const [cartItems, setCartItems] = useState([]);
   const [userId, setUserId] = useState(null);
@@ -98,11 +100,7 @@ function YourCart() {
 
       <div className="container mt-4 mb-4">
         <div className="border shadow-sm rounded p-3">
-          {/* <p className="text-end text-muted">
-            Your order from <strong>Bahria Town LHR store</strong> <br />
-            Standard delivery time: 15-20 mins
-          </p>
-          <hr /> */}
+       
 
           {loading ? (
             <p className="text-center">Loading cart items...</p>
@@ -155,17 +153,17 @@ function YourCart() {
         </div>
       </div>
 
-      <div className="Footer mt-auto bg-warning ">
-        <hr className="bg-warning"/>
-        <div className="d-flex ms-5 me-5 justify-content-between mt-2 p-3">
-          <p className="fw-bold">
-            Total (incl. fees and tax): Rs. {totalAmount}
-          </p>
-          <Link to="/checkout">
-            <button className="btn bg-success text-white">Go To Checkout</button>
-          </Link>
-        </div>
-      </div>
+      <div className="container mt-auto ">
+  <hr />
+  <div className="d-flex  border bg-warning shadow-sm rounded  justify-content-between mt-1 p-3">
+    <p className="fw-bold mt-2">
+      Total (incl. fees and tax): Rs. {totalAmount}
+    </p>
+    <Link to="/checkout">
+      <button className="btn bg-success text-white">Go To Checkout</button>
+    </Link>
+  </div>
+</div>
     </>
   );
 }

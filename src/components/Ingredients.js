@@ -2,22 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Ingredients.css";
 import Navbar from "./Navbar";
-import { toast, Toaster } from 'react-hot-toast';
+
+import {toast , Toaster}from 'react-hot-toast';
 
 function Ingredients() {
+  
   const location = useLocation();
   const navigate = useNavigate();
   const selectedDishes = location.state?.selectedDishes || [];
   const [dishes, setDishes] = useState([]);
   const [allDishes, setAllDishes] = useState([]);
   const [collapsedDishes, setCollapsedDishes] = useState({});
-  const [loading, setLoading] = useState(true); // Add loading state
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const userId = localStorage.getItem("id");
 
   useEffect(() => {
-    console.log("Selected Dishes  Dishes:", selectedDishes);
+    console.log("Selected Dishes:", selectedDishes);
 
     const fetchIngredients = async () => {
       try {
@@ -41,10 +42,10 @@ function Ingredients() {
         console.log("Filtered Dishes:", filteredDishes);
 
         const mappedDishes = filteredDishes.map((dish) => ({
-          _id: dish._id,
-          name: dish.dish,
+          _id: dish._id, // Ensure this is coming from the database
+          name: dish.dish, // The actual dish name
           ingredients: dish.ingredients.map((ingredient) => ({
-            _id: ingredient._id,
+            _id: ingredient._id, // Ensure this is the correct ingredient ID
             name: `${ingredient.ingredient}: ${ingredient.quantity} ${ingredient.unit}`,
             price: ingredient.price,
             quantity: 1,
@@ -53,24 +54,80 @@ function Ingredients() {
         }));
         
         console.log("Mapped Dishes:", mappedDishes);
+
         setDishes(mappedDishes);
       } catch (error) {
         console.error("Error fetching ingredients:", error);
-      } finally {
-        setLoading(false); // Set loading to false once fetching is done
       }
     };
 
     if (selectedDishes.length > 0) {
       fetchIngredients();
-    } else {
-      setLoading(false); // If no dishes are selected, stop loading immediately
     }
   }, [selectedDishes]);
 
   const handleAddToCart = async () => {
-    // ... (your existing handleAddToCart function remains unchanged)
+    try {
+      const userId = localStorage.getItem("id"); // Get user ID from localStorage
+  
+      if (!userId) {
+        console.error("User ID is missing. Please log in.");
+        toast.error("User ID is missing. Please log in.");
+        return;
+      }
+  
+      const selectedCartItems = dishes.map((dish) => ({
+        userId, // Ensure userId is included
+        dishId: dish._id, // Dish ID
+        dishName: dish.name, // Adding dish name
+        selectedIngredients: dish.ingredients
+          .filter((ing) => ing.checked) // Only send checked ingredients
+          .map((ing) => ({
+            ingredientId: ing._id, // Ingredient ID
+            ingredientName: ing.name.split(":")[0].trim(), // Extracting ingredient name before quantity/unit
+            quantity: ing.quantity,
+            price: ing.price,
+          })),
+        totalCost: calculateTotal(dish.ingredients),
+      }));
+  
+      if (selectedCartItems.length === 0) {
+        console.error("No items selected for the cart.");
+        toast.error("No items selected for the cart.");
+        return;
+      }
+  
+      console.log("Data sent to backend:", selectedCartItems); // Debugging output
+  
+      for (const cartItem of selectedCartItems) {
+        const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartItem),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to add items to cart");
+        }
+  
+        const data = await response.json();
+        console.log("Cart updated:", data);
+      }
+  
+      // Show success toast message
+      toast.success("Items successfully added to the cart!");
+      navigate('/cart');
+    } catch (error) {
+      console.error("Error adding items to cart:", error);
+      toast.error("Failed to add items to the cart. Please try again.");
+    }
   };
+  
+  
+  
+  
 
   if (selectedDishes.length === 0) {
     return (
@@ -101,21 +158,51 @@ function Ingredients() {
   };
 
   const updateQuantity = (dishId, ingredientId, increment) => {
-    // ... (your existing updateQuantity function remains unchanged)
+    const updatedDishes = dishes.map((dish) => {
+      if (dish._id === dishId) {
+        const updatedIngredients = dish.ingredients.map((item) => {
+          if (item._id === ingredientId) {
+            const newQuantity = item.quantity + increment;
+            return { ...item, quantity: newQuantity > 0 ? newQuantity : 1 };
+          }
+          return item;
+        });
+        return { ...dish, ingredients: updatedIngredients };
+      }
+      return dish;
+    });
+
+    setDishes(updatedDishes);
   };
 
   const toggleCheck = (dishId, ingredientId) => {
-    // ... (your existing toggleCheck function remains unchanged)
+    const updatedDishes = dishes.map((dish) => {
+      if (dish._id === dishId) {
+        const updatedIngredients = dish.ingredients.map((item) => {
+          if (item._id === ingredientId) {
+            return { ...item, checked: !item.checked };
+          }
+          return item;
+        });
+        return { ...dish, ingredients: updatedIngredients };
+      }
+      return dish;
+    });
+
+    setDishes(updatedDishes);
   };
 
   const toggleCollapse = (dishId) => {
-    // ... (your existing toggleCollapse function remains unchanged)
+    setCollapsedDishes((prevState) => ({
+      ...prevState,
+      [dishId]: !prevState[dishId],
+    }));
   };
 
   return (
     <>
       <Navbar />
-      <Toaster />
+      <Toaster/>
       <div className="container ingredientBox">
         <div className="row ingredientpage align-items-center">
           <div className="col-6">
@@ -131,93 +218,85 @@ function Ingredients() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="text-center">
-            <h3 className="fs-6">Loading...</h3>
-          </div>
-        ) : (
-          <>
-            {dishes.map((dish) => (
-              <div key={dish._id} className="ingredient-list card mb-3">
-                <div
-                  className="card-header d-flex justify-content-between align-items-center"
-                  onClick={() => toggleCollapse(dish._id)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <h3 className="DishNameH">{dish.name}</h3>
-                  {collapsedDishes[dish._id] ? (
-                    <i className="fas fa-chevron-up" style={{ fontSize: "20px" }}></i>
-                  ) : (
-                    <i className="fas fa-chevron-down" style={{ fontSize: "20px" }}></i>
-                  )}
-                </div>
-                <div
-                  id={`collapse-${dish._id}`}
-                  className={`collapse ${collapsedDishes[dish._id] ? "show" : ""}`}
-                  aria-labelledby={`heading-${dish._id}`}
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="card-body listcard">
-                    {dish.ingredients.map((item) => (
-                      <div key={item._id} className="ingredient-item">
-                        <input
-                          type="checkbox"
-                          checked={item.checked}
-                          onChange={() => toggleCheck(dish._id, item._id)}
-                          className="custom-checkbox"
-                        />
-                        <span className="item-name">{item.name}</span>
-                        <div className="quantity-control">
-                          <button
-                            onClick={() => updateQuantity(dish._id, item._id, -1)}
-                            disabled={!item.checked}
-                            className="addsubbtn"
-                          >
-                            -
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(dish._id, item._id, 1)}
-                            disabled={!item.checked}
-                            className="addsubbtn"
-                          >
-                            +
-                          </button>
-                        </div>
-                        <span className="item-price">
-                          Rs {item.checked ? item.price * item.quantity : 0}
-                        </span>
-                      </div>
-                    ))}
-                    <div className="total-section">
-                      <strong>Total: Rs {calculateTotal(dish.ingredients)}</strong>
+        {dishes.map((dish) => (
+          <div key={dish._id} className="ingredient-list card mb-3">
+            <div
+              className="card-header d-flex justify-content-between align-items-center"
+              onClick={() => toggleCollapse(dish._id)}
+              style={{ cursor: "pointer" }}
+            >
+              <h3 className="DishNameH">{dish.name}</h3>
+              {collapsedDishes[dish._id] ? (
+                <i className="fas fa-chevron-up" style={{ fontSize: "20px" }}></i>
+              ) : (
+                <i className="fas fa-chevron-down" style={{ fontSize: "20px" }}></i>
+              )}
+            </div>
+            <div
+              id={`collapse-${dish._id}`}
+              className={`collapse ${collapsedDishes[dish._id] ? "show" : ""}`}
+              aria-labelledby={`heading-${dish._id}`}
+              data-bs-parent="#accordionExample"
+            >
+              <div className="card-body listcard">
+                {dish.ingredients.map((item) => (
+                  <div key={item._id} className="ingredient-item">
+                    <input
+                      type="checkbox"
+                      checked={item.checked}
+                      onChange={() => toggleCheck(dish._id, item._id)}
+                      className="custom-checkbox"
+                    />
+                    <span className="item-name">{item.name}</span>
+                    <div className="quantity-control">
+                      <button
+                        onClick={() => updateQuantity(dish._id, item._id, -1)}
+                        disabled={!item.checked}
+                        className="addsubbtn"
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(dish._id, item._id, 1)}
+                        disabled={!item.checked}
+                        className="addsubbtn"
+                      >
+                        +
+                      </button>
                     </div>
+                    <span className="item-price">
+                      Rs {item.checked ? item.price * item.quantity : 0}
+                    </span>
                   </div>
+                ))}
+                <div className="total-section">
+                  <strong>Total: Rs {calculateTotal(dish.ingredients)}</strong>
                 </div>
               </div>
-            ))}
+            </div>
+          </div>
+        ))}
 
-            {dishesWithNoIngredients.length > 0 && (
-              <div className="ingredient-list card mb-3">
-                <div className="card-header">
-                  {dishesWithNoIngredients.map((dishName, index) => (
-                    <div key={index} className="ingredient-item">
-                      <h3 className="DishNameH">{dishName}</h3>
-                    </div>
-                  ))}
+        {dishesWithNoIngredients.length > 0 && (
+          <div className="ingredient-list card mb-3">
+            <div className="card-header">
+              {dishesWithNoIngredients.map((dishName, index) => (
+                <div key={index} className="ingredient-item">
+                  <h3 className="DishNameH">{dishName}</h3>
                 </div>
-                <div className="card-body">
-                  {dishesWithNoIngredients.map((dishName, index) => (
-                    <div key={index} className="ingredient-item">
-                      <p className="item-name">
-                        Oops! No ingredients found for <strong>{dishName}</strong>. Let us know if you'd like us to add them!
-                      </p>
-                    </div>
-                  ))}
+              ))}
+            </div>
+            <div className="card-body">
+              {dishesWithNoIngredients.map((dishName, index) => (
+                <div key={index} className="ingredient-item">
+                  <p className="item-name">
+                    Oops! No ingredients found for <strong>{dishName}</strong>. Let us know if you'd like us to add them!
+                  </p>
                 </div>
-              </div>
-            )}
-          </>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </>

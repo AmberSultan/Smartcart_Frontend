@@ -158,11 +158,11 @@ function HomePage() {
                   alt={recipe.dish}
                   className="card-img-top recipe-img"
                 />
-                <Link to={`/ingredients`}>
+                {/* <Link to={`/ingredients`}>
                 <button className="add-to-cart-btn btn btn-success position-absolute">
                   <span className="plus-icon">+</span>
                 </button>
-                </Link>
+                </Link> */}
                 <div className="card-body">
                   <h5 className="card-title popularecipletitle">{recipe.dish}</h5>
                   <Link to={`/ingredients`} state={{ selectedDishes: [recipe.dish] }}>
