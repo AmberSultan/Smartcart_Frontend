@@ -14,6 +14,7 @@ import Checkout from './components/Checkout';
 import Delivery from './components/Delivery';
 
 import About from './components/About';
+import Chatbot from './components/Chatbot';
 
 
 
@@ -49,6 +50,7 @@ function App() {
           <Route path='/delivery' element={<Delivery/>} />
 
           <Route path='/about' element={<About/>} />
+          <Route path='/planmeal' element={<Chatbot/>}/>
 
 
         {/* DASHBOARD ROUTES */}

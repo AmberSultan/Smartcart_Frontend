@@ -76,7 +76,7 @@ function HomePage() {
             Effortless meal planning and grocery shopping at your fingertips
           </p>
           <div className="cta-block mt-4">
-            <Link to="/recipes" className="btn btn-success me-3">Plan a Meal</Link>
+            <Link to="/planmeal" className="btn btn-success me-3">Plan a Meal</Link>
             <Link to="/about" className="btn btn-outline-light">Our Story</Link>
           </div>
         </div>

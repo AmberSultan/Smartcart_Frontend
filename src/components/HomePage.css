@@ -142,7 +142,7 @@ body {
 }
 
 .fandv {
-  background: linear-gradient(to bottom, #ffdf39, #dfbb00);
+  background: linear-gradient(to bottom, #fadf56, #ffd505);
   border-radius: 10px;
 }
 .fandvimg {
@@ -164,7 +164,8 @@ body {
   border-radius: 10px;
 }
 .breadimg {
-  width: 80%;
+  width: 85%;
+  height: 80%;
 }
 .oil {
   background: linear-gradient(to bottom, #ecbb70, #e29a2c);
