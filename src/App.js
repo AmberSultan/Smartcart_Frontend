@@ -27,6 +27,7 @@ import DishAdmin from './app/dashboard/left-side/DishAdmin';
 import IngredientsAdmin from './app/dashboard/left-side/IngredientsAdmin';
 import DishIngredients from './app/dashboard/left-side/DishIngredients';
 import CartItem from './app/dashboard/left-side/CartItem';
+import Blog from './components/Blog';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
 
           <Route path='/about' element={<About/>} />
           <Route path='/planmeal' element={<Chatbot/>}/>
+          <Route path='/blog' element={<Blog/>}/>
 
 
         {/* DASHBOARD ROUTES */}

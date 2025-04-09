@@ -85,7 +85,7 @@ function HomePage() {
       {/* All Categories Section */}
       <div className="container">
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <h2 className="allcategoryheading">All Categories</h2>
+          <h2 className="allcategoryheading">Weekly Special</h2>
         </div>
 
         {/* Main Content */}
@@ -93,48 +93,48 @@ function HomePage() {
           <div className="col-12 col-md-6 col-lg-2 mb-4 fandv me-1">
             <div className="text-center">
               <img className="fandvimg img-fluid" alt="fandv" src="/images/fandv.png" />
-              <p className="fandvtext">Fruits and Vegetables</p>
+              <p className="fandvtext">Chicken Bread</p>
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4 me-1">
             <div className="row milk mb-1">
               <div className="col-6">
-                <p className="oiltext">Dairy Products</p>
+                <p className="oiltext">Tomato Pasta</p>
               </div>
               <div className="col-6">
-                <img className="fandvimg img-fluid" alt="milk" src="/images/milk.png" />
+                <img className="fandvimg img-fluid" alt="milk" src="/images/milk1.png" />
               </div>
             </div>
             <div className="row bread">
               <div className="col-6">
-                <p className="oiltext">Bakery</p>
+                <p className="oiltext">Chicken Tender</p>
               </div>
               <div className="col-6">
-                <img className="breadimg img-fluid" alt="bread" src="/images/bread.png" />
+                <img className="breadimg img-fluid" alt="bread" src="/images/bread1.png" />
               </div>
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4 me-1">
             <div className="row mb-1 oil">
               <div className="col-6">
-                <p className="oiltext">Oil, Ghee, and Spices</p>
+                <p className="oiltext">BluBerry Custard</p>
               </div>
               <div className="col-6">
-                <img className="oilimg img-fluid" alt="oil" src="/images/oil.png" />
+                <img className="oilimg img-fluid" alt="oil" src="/images/oil1.png" />
               </div>
             </div>
             <div className="row noodles">
               <div className="col-6">
-                <p className="oiltext">Noodles and Pastas</p>
+                <p className="oiltext">Chocolate Brownie</p>
               </div>
               <div className="col-6">
-                <img className="fandvimg img-fluid" alt="noodles" src="/images/noodles.png" />
+                <img className="fandvimg img-fluid" alt="noodles" src="/images/noodles1.png" />
               </div>
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4 snacks">
             <div className="d-flex align-items-center flex-wrap">
-              <p className="oiltext mb-0 me-3 text-center">Variety of Beverages and Snacks</p>
+              <p className="oiltext mb-0 me-3 text-center">Cinnamon Rolls</p>
               <img className="snackimg img-fluid" alt="snacks" src="/images/snacks1.png" />
             </div>
           </div>
@@ -222,7 +222,7 @@ function HomePage() {
                   style={{ height: '100%', justifyContent: 'flex-end' }}
                 >
                   <h5 className="card-title mb-2 quickblog text-decoration-underline">10 Quick Weeknight Meals</h5>
-                  <Link to="/" className="btn btn-success readnow">READ NOW</Link>
+                  <Link to="/blog" className="btn btn-success readnow">READ NOW</Link>
                 </div>
               </div>
             </div>

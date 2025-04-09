@@ -154,21 +154,23 @@ body {
   font-size: 18px;
 }
 .milk {
-  background: linear-gradient(to bottom, #e24d4d, #da2424);
+  background: linear-gradient(to bottom, #e77d40, #b30303d3);
   border-radius: 10px;
   display: flex;
   align-items: center;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 .bread {
   background: linear-gradient(to bottom, #725907, #423a02);
   border-radius: 10px;
 }
 .breadimg {
-  width: 85%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 }
 .oil {
-  background: linear-gradient(to bottom, #ecbb70, #e29a2c);
+  background: linear-gradient(to bottom, #70ecec, #041b81);
   border-radius: 10px;
 }
 .oilimg {
@@ -182,11 +184,14 @@ body {
   margin-top: 20px;
 }
 .noodles {
-  background: linear-gradient(to bottom, #8bb46a, #49801d);
+  background: linear-gradient(to bottom, #3d3f23, #532303);
   border-radius: 10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+
 }
 .snacks {
-  background: linear-gradient(to bottom, #a0719e, #522a50);
+  background: linear-gradient(to bottom, #d83604, #c56104);
   border-radius: 10px;
 }
 .snackimg {
