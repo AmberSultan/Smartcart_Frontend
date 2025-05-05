@@ -7,15 +7,13 @@ const Chatbot = ({ selectedDish }) => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false); // New state for loading
 
-  // Function to reformat the API response
   const formatResponse = (text) => {
-    // Replace ** with <strong> for bold text
     let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-    // Split into lines
+  
     const lines = formattedText.split('\n');
-    let isStepsSection = false; // Track if we're in the Steps section
-    let stepCounter = 1; // Manual counter for steps
+    let isStepsSection = false;
+    let stepCounter = 1;
 
     // Process lines to handle numbering and asterisks
     const formattedLines = lines.map((line) => {

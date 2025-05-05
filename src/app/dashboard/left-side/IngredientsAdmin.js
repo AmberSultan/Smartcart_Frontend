@@ -134,6 +134,8 @@ function IngredientsAdmin() {
                       <option value="1g">1 g</option>
                       <option value="1 packet">1 packet</option>
                       <option value="1 jar">1 jar</option>
+                      <option value='liter'>1 liter</option>\
+                      <option value='1 pcs'>1 piece</option>
                     </select>
                   </div>
                 </div>

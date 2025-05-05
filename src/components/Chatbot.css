@@ -84,7 +84,7 @@
     justify-content: center;
   }
   
-  /* Loading indicator */
+
   .smartcart-chatbot-loading {
     align-self: flex-start;
     padding: 15px;
@@ -99,7 +99,6 @@
     font-style: italic;
   }
   
-  /* Individual message */
   .smartcart-chatbot-message {
     display: flex;
     flex-direction: column;
@@ -139,7 +138,7 @@
     font-weight: 700;
   }
   
-  /* Input area */
+
   .smartcart-chatbot-input-area {
     padding: 20px;
     background-color: #ffffff;
