@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Ingredients.css";
 import Navbar from "./Navbar";
-
-import {toast , Toaster}from 'react-hot-toast';
+import { toast, Toaster } from "react-hot-toast";
 
 function Ingredients() {
-  
   const location = useLocation();
   const navigate = useNavigate();
   const selectedDishes = location.state?.selectedDishes || [];
@@ -42,19 +40,18 @@ function Ingredients() {
         console.log("Filtered Dishes:", filteredDishes);
 
         const mappedDishes = filteredDishes.map((dish) => ({
-          _id: dish._id, // Ensure this is coming from the database
-          name: dish.dish, // The actual dish name
+          _id: dish._id,
+          name: dish.dish,
           ingredients: dish.ingredients.map((ingredient) => ({
-            _id: ingredient._id, // Ensure this is the correct ingredient ID
+            _id: ingredient._id,
             name: `${ingredient.ingredient}: ${ingredient.quantity} ${ingredient.unit}`,
             price: ingredient.price,
             quantity: 1,
             checked: true,
           })),
         }));
-        
-        console.log("Mapped Dishes:", mappedDishes);
 
+        console.log("Mapped Dishes:", mappedDishes);
         setDishes(mappedDishes);
       } catch (error) {
         console.error("Error fetching ingredients:", error);
@@ -66,39 +63,45 @@ function Ingredients() {
     }
   }, [selectedDishes]);
 
+  // Helper function to check if any ingredient is checked
+  const hasCheckedItems = () => {
+    return dishes.some((dish) =>
+      dish.ingredients.some((item) => item.checked)
+    );
+  };
+
   const handleAddToCart = async () => {
     try {
-      const userId = localStorage.getItem("id"); // Get user ID from localStorage
-  
+      const userId = localStorage.getItem("id");
       if (!userId) {
         console.error("User ID is missing. Please log in.");
         toast.error("User ID is missing. Please log in.");
         return;
       }
-  
+
       const selectedCartItems = dishes.map((dish) => ({
-        userId, // Ensure userId is included
-        dishId: dish._id, // Dish ID
-        dishName: dish.name, // Adding dish name
+        userId,
+        dishId: dish._id,
+        dishName: dish.name,
         selectedIngredients: dish.ingredients
-          .filter((ing) => ing.checked) // Only send checked ingredients
+          .filter((ing) => ing.checked)
           .map((ing) => ({
-            ingredientId: ing._id, // Ingredient ID
-            ingredientName: ing.name.split(":")[0].trim(), // Extracting ingredient name before quantity/unit
+            ingredientId: ing._id,
+            ingredientName: ing.name.split(":")[0].trim(),
             quantity: ing.quantity,
             price: ing.price,
           })),
         totalCost: calculateTotal(dish.ingredients),
       }));
-  
-      if (selectedCartItems.length === 0) {
+
+      if (selectedCartItems.length === 0 || !hasCheckedItems()) {
         console.error("No items selected for the cart.");
-        toast.error("No items selected for the cart.");
+        toast.error("You have not selected any item.");
         return;
       }
-  
-      console.log("Data sent to backend:", selectedCartItems); // Debugging output
-  
+
+      console.log("Data sent to backend:", selectedCartItems);
+
       for (const cartItem of selectedCartItems) {
         const response = await fetch(`${BASE_URL}/cart/yourcart/${userId}`, {
           method: "POST",
@@ -107,27 +110,31 @@ function Ingredients() {
           },
           body: JSON.stringify(cartItem),
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to add items to cart");
         }
-  
+
         const data = await response.json();
         console.log("Cart updated:", data);
       }
-  
-      // Show success toast message
+
       toast.success("Items successfully added to the cart!");
-      navigate('/cart');
+      navigate("/cart");
     } catch (error) {
       console.error("Error adding items to cart:", error);
       toast.error("Failed to add items to the cart. Please try again.");
     }
   };
-  
-  
-  
-  
+
+  // Handle click on the Add to Cart button
+  const handleButtonClick = () => {
+    if (!hasCheckedItems()) {
+      toast.error("You have not selected any item.");
+    } else {
+      handleAddToCart();
+    }
+  };
 
   if (selectedDishes.length === 0) {
     return (
@@ -202,7 +209,7 @@ function Ingredients() {
   return (
     <>
       <Navbar />
-      <Toaster/>
+      <Toaster />
       <div className="container ingredientBox">
         <div className="row ingredientpage align-items-center">
           <div className="col-6">
@@ -212,7 +219,11 @@ function Ingredients() {
             </p>
           </div>
           <div className="col-6 text-end">
-            <button className="add-to-cart me-5" onClick={handleAddToCart}>
+            <button
+              className={`add-to-cart me-5 ${!hasCheckedItems() ? "disabled" : ""}`}
+              onClick={handleButtonClick}
+              disabled={!hasCheckedItems()}
+            >
               ADD TO CART
             </button>
           </div>
