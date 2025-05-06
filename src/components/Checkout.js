@@ -7,13 +7,13 @@ import './Checkout.css';
 
 function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
-  const [isEditingPersonal, setIsEditingPersonal] = useState(false); // Renamed for clarity
-  const [isEditingAddress, setIsEditingAddress] = useState(false); // New state for address editing
+  const [isEditingPersonal, setIsEditingPersonal] = useState(false);
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [name, setName] = useState('Enter Your Name');
   const [email, setEmail] = useState('email@example.com');
-  const [phone, setPhone] = useState('+923000000000');
-  const [addressType, setAddressType] = useState('Home'); // New state for address type
-  const [addressDetails, setAddressDetails] = useState('Bahria Town'); // New state for address details
+  const [phone, setPhone] = useState('03000000000');
+  const [addressType, setAddressType] = useState('Home');
+  const [addressDetails, setAddressDetails] = useState('Bahria Town');
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
@@ -80,8 +80,15 @@ function Checkout() {
       return;
     }
 
-    if (!name || name === 'Enter Your Name' || !email || email === 'email@example.com' || !phone || phone === '+923000000000') {
-      toast.error("Please fill in all personal information with valid details.");
+    if (
+      !name ||
+      name === 'Enter Your Name' ||
+      !email ||
+      email === 'email@example.com' ||
+      !phone ||
+      phone.length !== 11 // Ensure exactly 11 digits
+    ) {
+      toast.error("Please fill in all personal information with valid details, including an 11-digit phone number.");
       return;
     }
 
@@ -246,7 +253,14 @@ function Checkout() {
                   type="tel"
                   className="form-control"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  maxLength={11}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '');
+                    if (value.length <= 11) {
+                      setPhone(value);
+                    }
+                  }}
+                  placeholder="03000000000"
                 />
               </>
             ) : (
