@@ -34,7 +34,8 @@ const MealChoice = () => {
     // Filter dishes based on the selected category
     if (dishes.length > 0) {
       const filtered = dishes.filter(
-        (dish) => dish.categoryId.categoryName.toLowerCase() === category.toLowerCase()
+        (dish) =>
+          dish.categoryId.categoryName.toLowerCase() === category.toLowerCase()
       );
       setFilteredDishes(filtered); // Set filtered dishes
     }
@@ -54,7 +55,9 @@ const MealChoice = () => {
   const toggleSelection = (item) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(item)) {
-        return prevSelectedItems.filter((selectedItem) => selectedItem !== item); // Remove item
+        return prevSelectedItems.filter(
+          (selectedItem) => selectedItem !== item
+        ); // Remove item
       } else {
         return [...prevSelectedItems, item]; // Add item
       }
@@ -80,11 +83,14 @@ const MealChoice = () => {
           <div className="col-md-6">
             <div className="header-text">
               <h2 className="choiceMainHeading">
-                Make Your {category.charAt(0).toUpperCase() + category.slice(1)} Choices
+                Make Your {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
+                Choices
               </h2>
               <p className="choiceMainP">
-                Just select dishes of your choice, and SmartCart will handle the rest.
+                Just select dishes of your choice, and SmartCart will handle the
+                rest.
               </p>
+              
             </div>
           </div>
           <div className="col-md-6">
@@ -102,13 +108,23 @@ const MealChoice = () => {
             </div>
           </div>
         </div>
+
+
+        <p className="text-start">
+  <strong>Note:</strong> Some ingredients (like oil, flour, sugar, etc.) are delivered in 
+  <em>standard full-size packs</em> — even if your selected recipe requires only a small amount. 
+  This helps reduce waste, saves cost in the long run, and lets you reuse items for future meals.
+</p>
+
       </div>
 
       <div className="grid">
         {searchedDishes.map((dish) => (
           <div
             key={dish._id}
-            className={`grid-item ${selectedItems.includes(dish.dishName) ? "selected" : ""}`}
+            className={`grid-item ${
+              selectedItems.includes(dish.dishName) ? "selected" : ""
+            }`}
             onClick={() => toggleSelection(dish.dishName)}
           >
             {dish.dishName}

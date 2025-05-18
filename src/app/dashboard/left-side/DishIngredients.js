@@ -174,6 +174,7 @@ function DishIngredients() {
               <option value='pcs'>pcs</option>
               <option value='packet'>packet</option>
               <option value='lit'>liter</option>
+              <option value='tbsp'>tbsp</option>
             </select>
             <input type='number' className='form-control ml-2 me-3' value={item.price} onChange={(e) => handleIngredientChange(index, 'price', e.target.value)} placeholder='Price' />
             <button className='btn btn-danger ml-2' onClick={() => deleteIngredient(index)}>-</button>
