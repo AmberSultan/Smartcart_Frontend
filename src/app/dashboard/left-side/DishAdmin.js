@@ -39,7 +39,7 @@ function DishAdmin() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:4001/mealcategory/category");
+      const response = await fetch(`${BASE_URL}/mealcategory/category`);
       const data = await response.json();
       if (data.categories && Array.isArray(data.categories)) {
         setCategories(data.categories);
