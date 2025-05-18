@@ -12,7 +12,7 @@ function CartItem() {
   useEffect(() => {
     const fetchOrders = async () => {
       if (!BASE_URL) {
-        setError("BASE_URL not found.");
+        setError('BASE_URL not found.');
         setLoading(false);
         return;
       }
@@ -23,20 +23,19 @@ function CartItem() {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("Orders API Response:", data);
+        console.log('Orders API Response:', data);
 
         if (data.message && data.checkouts === undefined) {
-          throw new Error(data.message); // Handle errors like "Invalid userId format"
+          throw new Error(data.message);
         }
 
         if (!data.checkouts || !data.checkouts.length) {
-          setOrders([]); // Set empty array if no orders
+          setOrders([]);
         } else {
-          // Sort orders by createdAt in descending order (newest first)
-          const sortedOrders = data.checkouts.sort((a, b) => 
+          const sortedOrders = data.checkouts.sort((a, b) =>
             new Date(b.createdAt) - new Date(a.createdAt)
           );
-          setOrders(sortedOrders); // Set sorted orders
+          setOrders(sortedOrders);
         }
       } catch (err) {
         setError(err.message);
@@ -47,6 +46,15 @@ function CartItem() {
 
     fetchOrders();
   }, [BASE_URL]);
+
+  // Function to mark an order as completed (local state update)
+  const markOrderAsCompleted = (orderId) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order._id === orderId ? { ...order, orderStatus: 'Completed' } : order
+      )
+    );
+  };
 
   // Render loading, error, or orders list
   if (loading) {
@@ -68,9 +76,10 @@ function CartItem() {
               <th>Name</th>
               <th>Phone Number</th>
               <th>Store Location</th>
-              <th>Delivery Location</th> {/* New column */}
+              <th>Delivery Location</th>
               <th>Total Price</th>
               <th>Order Status</th>
+              <th>Action</th> {/* New column for the button */}
             </tr>
           </thead>
           <tbody>
@@ -80,7 +89,7 @@ function CartItem() {
                 <td>{order.personalInfo?.name || 'N/A'}</td>
                 <td>{order.personalInfo?.phone || 'N/A'}</td>
                 <td>{order.storeLocation || 'N/A'}</td>
-                <td>{order.deliveryAddress?.addressDetails || 'N/A'}</td> {/* Display addressDetails */}
+                <td>{order.deliveryAddress?.addressDetails || 'N/A'}</td>
                 <td>Rs.{order.orderDetails?.totalPrice || 'N/A'}</td>
                 <td
                   className={
@@ -92,6 +101,18 @@ function CartItem() {
                   }
                 >
                   {order.orderStatus || 'N/A'}
+                </td>
+                <td>
+                  {order.orderStatus === 'Pending' ? (
+                    <button
+                      className="complete-btn"
+                      onClick={() => markOrderAsCompleted(order._id)}
+                    >
+                      Complete
+                    </button>
+                  ) : (
+                    '—' // Display a dash for non-pending orders
+                  )}
                 </td>
               </tr>
             ))}
