@@ -223,6 +223,8 @@ function Ingredients() {
               Review to remove ingredients that are not required.
             </p>
           </div>
+          
+
           <div className="col-6 text-end">
             <button
               className={`add-to-cart me-5 ${!hasCheckedItems() ? "disabled" : ""}`}
@@ -233,7 +235,11 @@ function Ingredients() {
             </button>
           </div>
         </div>
-
+        <p className="text-start">
+  <strong>Note:</strong> Some ingredients (like oil, flour, sugar, etc.) are delivered in 
+  <em>standard full-size packs</em> — even if your selected recipe requires only a small amount. 
+  This helps reduce waste, saves cost in the long run, and lets you reuse items for future meals.
+</p>
         {dishes.map((dish) => (
           dish.ingredients.length > 0 ? (
             <div key={dish._id} className="ingredient-list card mb-3">
